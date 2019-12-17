@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>编辑医院</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body class="form-wrap" >
+  <div class="x-nav">
+    <span class="layui-breadcrumb">
+      <a href="javascript:void(0);">首页</a>
+      <a href="javascript:void(0);">医院管理</a>
+      <a href="javascript:void(0);">医院管理</a>
+      <a><cite>编辑医院</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+      <i class="layui-icon" style="line-height:38px;font-size:12px">ဂ刷新</i>
+    </a>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="{:url('admin/hospital/lists')}" title="返回">
+      <i class="fa fa-reply"></i>返回
+    </a>
+  </div>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 15px;">
+        <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>医院等级</label>
+            <div class="layui-input-block">
+              <select name="level" id="">
+                <option value="">请选择医院等级</option>
+                {foreach name="level" item="v"}
+                  <option value="{$v.id}" {notempty name="one.level"}{eq name="one.level" value="$v.id"}selected="selected"{/eq}{/notempty}>{$v.title}</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>医院名称</label>
+            <div class="layui-input-block">
+              {notempty name="one.id"}<input type="hidden" name="id" value="{$one.id}">{/notempty}
+              <input type="text" name="title" required  lay-verify="required" placeholder="请输入医院名称" autocomplete="off" class="layui-input" {notempty name="one.title"}value="{$one.title}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>医院代码</label>
+            <div class="layui-input-block">
+              <input type="text" name="no" required  lay-verify="required" placeholder="请输入医院代码" autocomplete="off" class="layui-input" {notempty name="one.no"}value="{$one.no}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>LOGO</label>
+            <div class="layui-input-block">
+              <div class="left" style="cursor:pointer;" id="fenming">
+                <img src="{notempty name="one.logo"}{$one.logo|getImage}{/notempty}" alt="" onerror="this.src='{:statics('img')}add_fm.png'" id="fmimg" style="width:100px;height:100px;"><br/>
+                <button type="button" class="layui-btn" style="width:100px;">上传LOGO</button>
+                <input type="hidden" name="logo" {notempty name="one.logo"}value="{$one.logo}"{else /}value=""{/notempty} id="img">
+              </div>
+              <div class="left" style="padding-left:20px;">
+                <p style="text-align: center;">上传图片大小不能超过100kb，比例1：1</p>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">展示图</label>
+            <div class="layui-input-block">
+              {notempty name="one.pics"}
+                {:images_s('pics[]',$one.pics,url('admin/base/upload',['utitle'=>'googs','name'=>'file']),300,200,0.5)}
+              {else /}
+                  {:images_s('pics[]',"",url('admin/base/upload',['utitle'=>'googs','name'=>'file']),300,200,0.5)}
+              {/notempty}
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>所在地</label>
+            <div class="layui-input-block">
+              <div class="layui-inline">
+                <select name="sheng" lay-filter="myselect" id="sheng" lay-search>
+                  <option value="">请选择省</option>
+                  {foreach name="sheng" item="v"}
+                    <option value="{$v.region_id}" {notempty name="one.sheng"}{eq name="one.sheng" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                  {/foreach}
+                </select>
+              </div>
+              <div class="layui-inline">
+                <select name="shi" id="City" lay-filter="myselect2" lay-search>
+                  <option value="">请选择市</option>
+                  {notempty name="shi"}
+                    {foreach name="shi" item="v"}
+                      <option value="{$v.region_id}" {notempty name="one.shi"}{eq name="one.shi" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                    {/foreach}
+                  {/notempty}
+                </select>
+              </div>
+              <div class="layui-inline">
+                <select name="qu" id="qu" lay-filter="myselect3" lay-search>
+                  <option value="">请选择区县</option>
+                  {notempty name="qu"}
+                    {foreach name="qu" item="v"}
+                      <option value="{$v.region_id}" {notempty name="one.qu"}{eq name="one.qu" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                    {/foreach}
+                  {/notempty}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>医院地址</label>
+            <div class="layui-input-block">
+              <input type="text" name="address" placeholder="请输入地址" class="layui-input" {notempty name="one.address"}value="{$one.address}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item" style="display:none;">
+            <label class="layui-form-label">医院位置</label>
+            <div class="layui-input-block">
+              <div class="layui-inline">
+                <label class="layui-form-label">经度</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="lng" class="layui-input" {notempty name="one.lng"}value="{$one.lng}"{/notempty}>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">纬度</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="lat" class="layui-input" {notempty name="one.lat"}value="{$one.lat}"{/notempty}>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">关键字</label>
+            <div class="layui-input-block">
+              <textarea name="keywords" id="keywords" placeholder="请输入关键字，200字以内" class="layui-textarea" style="height:60px;">{notempty name="one.keywords"}{$one.keywords}{/notempty}</textarea>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">简介</label>
+            <div class="layui-input-block">
+              <textarea name="description" id="description" placeholder="请输入简介，500字以内" class="layui-textarea" style="height:60px;">{notempty name="one.description"}{$one.description}{/notempty}</textarea>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>详情</label>
+            <div class="layui-input-block">
+              <textarea name="content" id="content" placeholder="请输入内容" class="layui-textarea" autocomplete="off" style="width:100%">{notempty name="one.content"}{$one.content}{/notempty}</textarea>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">开启/关闭</label>
+            <div class="layui-input-block">
+              <input type="checkbox" {notempty name="one.is_show"}{eq name="one.is_show" value="y"}checked="checked"{/eq}{else /}checked="checked"{/notempty} name="is_show" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="开启|关闭" value="y">
+            </div>
+          </div>
+          <div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="{:statics('public')}ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{:statics('public')}ueditor/ueditor.all.js"></script>
+<script type="text/javascript">
+  layui.use(['form','layer','upload','laydate'], function(){
+    $ = layui.jquery;
+    var form = layui.form,layer = layui.layer,upload = layui.upload,laydate = layui.laydate;
+    var uploadInst = upload.render({
+      elem: '#fenming',
+      url: '{:url('admin/base/upload')}?utitle=goods&name=file',
+      done: function(res){
+        if(res.code == 0) {
+          $("#fmimg").attr("src",res.returnData.url);
+          $("#img").val(res.returnData.id);
+        }else {
+          layer.msg(res.msg);
+        }
+      },
+      error: function(){
+      }
+    });
+    //监听提交
+    form.on('submit(froma)',function(e){
+      $.ajax({
+        url:"{:url('admin/hospital/publish')}",
+        data:$('#froma').serialize(),
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            layer.msg(res.msg,{icon:1,time:2000});
+            setTimeout(function(){
+              window.history.go(-1);
+            },2000);
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+      return false;
+    });
+    form.on('select(myselect)', function(data){
+      var areaId = data.value;
+      $.ajax({
+        url:"{:url('admin/base/region')}",
+        data:{id:areaId},
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            $("#City").html("");
+            var oo = '<option value="">请选择市</option>';
+            $("#City").append(oo);
+            $("#qu").html("");
+            var ooa = '<option value="">请选择区县</option>';
+            $("#qu").append(ooa);
+            $.each(res.returnData,function(key,val) {
+                var option1 = $("<option>").val(val.region_id).text(val.region_name);
+                $("#City").append(option1);
+                form.render('select');
+            }); 
+            $("#City").get(0).selectedIndex=0;
+          }else{
+            $("#City").css("display:none");
+          }
+        }
+      })
+      return false;
+    })
+    form.on('select(myselect2)', function(data){
+      var areaId = data.value;
+      $.ajax({
+        url:"{:url('admin/base/region')}",
+        data:{id:areaId},
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            $("#qu").html("");
+            var oo = '<option value="">请选择区县</option>';
+            $("#qu").append(oo);
+            $.each(res.returnData,function(key,val) {
+                var option1 = $("<option>").val(val.region_id).text(val.region_name);
+                $("#qu").append(option1);
+                form.render('select');
+             }); 
+             $("#qu").get(0).selectedIndex=0;
+          }else{
+            $("#qu").css("display:none");
+          }
+        }
+      })
+      return false;
+    })
+  });
+  var ue = UE.getEditor("content");
+</script>
+</html>

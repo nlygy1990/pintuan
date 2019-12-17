@@ -1,0 +1,35 @@
+<div class="layui-form-item">
+    <label class="layui-form-label">会员等级</label>
+    <div class="layui-input-block">
+        <select name="level" lay-filter="aihao">
+            <option value="0">普通会员</option>
+            {foreach name="catelist" item="v"}
+                <option value="{$v.id}" {eq name="one.level" value="$v.id"}selected{/eq}>{$v.title}</option>
+            {/foreach}
+        </select>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">用户名</label>
+    <div class="layui-form-mid layui-word-aux">
+        {$one.username}
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">昵称</label>
+    <div class="layui-form-mid layui-word-aux">
+        {$one.nickname}
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">注册时间</label>
+    <div class="layui-form-mid layui-word-aux">
+        {$one.addtime|date="Y-m-d H:i:s"}
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">注册IP</label>
+    <div class="layui-form-mid layui-word-aux">
+        {$one.addip}
+    </div>
+</div>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-L-admin1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body class="form-wrap" >
+
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="javascript:void(0);">首页</a>
+        <a href="javascript:void(0);">商品管理</a>
+        <a href="javascript:void(0);">商品列表</a>
+        <a><cite>编辑商品</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px;font-size:12px">ဂ刷新</i>
+      </a>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="{:url('admin/goods/lists')}" title="返回">
+        <i class="fa fa-reply"></i>返回
+      </a>
+    </div>
+  <div class="layui-fluid" id="component-tabs">
+    <div class="layui-row">
+      <div class="layui-col-md12">
+        <div class="layui-card">
+          <div class="layui-card-body">
+            <div class="layui-tab">
+              <ul class="layui-tab-title" id="xuan_tab">
+                <li class="layui-this">基本</li>
+                <li>库存/规格</li>
+                <li>详情</li>
+                <li>购买权限</li>
+                <li {if $admininfo.shop_id>0}style="display:none;"{/if}>营销</li>
+                <li {if $admininfo.shop_id>0}style="display:none;"{else /}{if $fenxiao.isdistribution=='0'}style="display:none;"{/if}{/if}>分销</li>
+                <li {if $admininfo.shop_id>0}style="display:none;"{/if}>店铺信息</li>
+              </ul>
+              <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+                <div class="layui-tab-content" id="ying_tab">
+                  <div class="layui-tab-item layui-show">{include file="goods/tab/basic" /}</div>
+                  <div class="layui-tab-item">{include file="goods/tab/kucun" /}</div>
+                  <div class="layui-tab-item">{include file="goods/tab/textarea" /}</div>
+                  <div class="layui-tab-item">{include file="goods/tab/buy" /}</div>
+                  <div class="layui-tab-item" {if $admininfo.shop_id>0}style="display:none;"{/if}>{include file="goods/tab/yingxiao" /}</div>
+                  <div class="layui-tab-item" {if $admininfo.shop_id>0}style="display:none;"{/if}>{include file="goods/tab/fenxiao" /}</div>
+                  <div class="layui-tab-item" {if $admininfo.shop_id>0}style="display:none;"{/if}>{include file="goods/tab/store" /}</div>
+                </div>
+
+                <div class="layui-form-item layui-layout-admin">
+                  <div class="layui-input-block">
+                    <div class="layui-footer" style="left: 0;">
+                      <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+                      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+  </div>
+</body>
+<script type="text/javascript">
+  $("#xuan_tab li").click(function(){
+    var ii = $(this).index();
+    $('#ying_tab .layui-tab-item').removeClass('layui-show');
+    $('#ying_tab .layui-tab-item').eq(ii).addClass('layui-show');
+  })
+  $('#edareas').click(function(){
+    x_admin_show('选择地区','{:url('admin/base/selectRegion')}','',570);
+  })
+  layui.use(['form','upload','laydate'], function(){
+    form = layui.form,upload = layui.upload,laydate = layui.laydate;
+    var uploadInst = upload.render({
+      elem: '#fenming',
+      url: '{:url('admin/base/upload')}?utitle=goods&name=file',
+      done: function(res){
+        if(res.code == 0) {
+          $("#fmimg").attr("src",res.returnData.url);
+          $("#img").val(res.returnData.id);
+        }else {
+          layer.msg(res.msg);
+        }
+      },
+      error: function(){
+      }
+    });
+    var uploadInst = upload.render({
+      elem: '#fenminga',
+      url: '{:url('admin/base/upload')}?utitle=goods&name=file',
+      done: function(res){
+        if(res.code == 0) {
+          $("#fmimga").attr("src",res.returnData.url);
+          $("#imga").val(res.returnData.id);
+        }else {
+          layer.msg(res.msg);
+        }
+      },
+      error: function(){
+      }
+    });
+
+    laydate.render({ 
+        elem: '#riqi',
+        min: '2000-1-1',
+        type:'datetime',
+        max: '{:date('Y-m-d',time()+60*60*24*365*20)}',
+        done: function(value, date, endDate){
+          console.log(value);
+        }
+    });
+    laydate.render({ 
+        elem: '#riqia',
+        min: '2000-1-1',
+        type:'datetime',
+        max: '{:date('Y-m-d',time()+60*60*24*365*20)}',
+        done: function(value, date, endDate){
+          console.log(value);
+        }
+    });
+    //监听提交
+    form.on('submit(froma)',function(e){
+      $.ajax({
+        url:"{:url('admin/goods/publish')}",
+        data:$('#froma').serialize(),
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code=='0'){
+            layer.msg(res.msg,{icon:1,time:2000});
+            setTimeout(function(){
+              window.history.go(-1);
+            },2000);
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+      return false;
+    });
+    form.on('select(myselect)', function(data){
+      var areaId = data.value;
+      $.ajax({
+        url:"{:url('admin/base/region')}",
+        data:{id:areaId},
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            $("#City").html("");
+            var oo = '<option value="">请选择市</option>';
+            $("#City").append(oo);
+            $("#qu").html("");
+            var ooa = '<option value="">请选择区县</option>';
+            $("#qu").append(ooa);
+            $.each(res.returnData,function(key,val) {
+                var option1 = $("<option>").val(val.region_id).text(val.region_name);
+                $("#City").append(option1);
+                form.render('select');
+            }); 
+            $("#City").get(0).selectedIndex=0;
+          }else{
+            $("#City").css("display:none");
+          }
+        }
+      })
+      return false;
+    })
+    form.on('select(myselect2)', function(data){
+      var areaId = data.value;
+      $.ajax({
+        url:"{:url('admin/base/region')}",
+        data:{id:areaId},
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            $("#qu").html("");
+            var oo = '<option value="">请选择区县</option>';
+            $("#qu").append(oo);
+            $.each(res.returnData,function(key,val) {
+                var option1 = $("<option>").val(val.region_id).text(val.region_name);
+                $("#qu").append(option1);
+                form.render('select');
+             }); 
+             $("#qu").get(0).selectedIndex=0;
+          }else{
+            $("#qu").css("display:none");
+          }
+        }
+      })
+      return false;
+    })
+    form.on('select(myselectshop)', function(data){
+      var areaId = data.value;
+      $.ajax({
+        url:"{:url('admin/base/ckShop')}",
+        data:{id:areaId},
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            $('#store_name').val(res.returnData.title);
+            $('#fmimga').attr('src',res.returnData.img);
+            $('#imga').val(res.returnData.logo);
+            $('#store_description').val(res.returnData.descriptio);
+          }
+        }
+      })
+      return false;
+    })
+    form.on('select(usergroupread)', function(data){
+      var vv = data.value;
+      var arr = vv.split('-');
+      if(arr[0] && arr[1]){
+        var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                <input type="hidden" name="usergroupread[]" value="'+arr[0]+'"> '+arr[1]+' \
+                <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+              </div>';
+      }else{
+        var htm = "";
+      }
+      var bjl = $('#huiyuanl').find('input').length;
+      var a = true;
+      for(var i=0; i<bjl; i++){
+        var ia = $('#huiyuanl').find('input').eq(i).val();
+        if(ia==arr[0]){
+          a = false;
+        }
+      }
+      if(a==true){
+        $('#huiyuanl').append(htm);
+      }
+    })
+    form.on('select(usergroupbuy)', function(data){
+      var vv = data.value;
+      var arr = vv.split('-');
+      if(arr[0] && arr[1]){
+        var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                <input type="hidden" name="usergroupbuy[]" value="'+arr[0]+'"> '+arr[1]+' \
+                <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+              </div>';
+      }else{
+        var htm = "";
+      }
+      var bjl = $('#huiyuanm').find('input').length;
+      var a = true;
+      for(var i=0; i<bjl; i++){
+        var ia = $('#huiyuanm').find('input').eq(i).val();
+        if(ia==arr[0]){
+          a = false;
+        }
+      }
+      if(a==true){
+        $('#huiyuanm').append(htm);
+      }
+    })
+    form.on('select(aihaoa)', function(data){
+      var vv = data.value;
+      var arr = vv.split(',');
+      if(arr[0] && arr[1]){
+        var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                <input type="hidden" name="cates[]" value="'+arr[0]+'"> '+arr[1]+' \
+                <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+              </div>';
+      }else{
+        var htm = "";
+      }
+      var bjl = $('#leixing').find('input').length;
+      var a = true;
+      for(var i=0; i<bjl; i++){
+        var ia = $('#leixing').find('input').eq(i).val();
+        if(ia==arr[0]){
+          a = false;
+        }
+      }
+      if(a==true){
+        $('#leixing').append(htm);
+      }
+    })
+  });
+</script>
+</html>

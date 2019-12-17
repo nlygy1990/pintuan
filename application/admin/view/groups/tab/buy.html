@@ -1,0 +1,90 @@
+<div class="layui-form-item">
+	<div class="layui-inline">
+		<label class="layui-form-label" style="width:120px;">单次最多购买</label>
+		<div class="layui-input-inline">
+			<input type="text" name="maxbuy" class="layui-input" {notempty name="one.maxbuy"}value="{$one.maxbuy}"{/notempty}>
+		</div>
+		<div class="layui-form-mid layui-word-aux"> 件 (用户单次购买此商品数量限制，不填或者0为不限制)</div>
+	</div>
+</div>
+<div class="layui-form-item">
+	<div class="layui-inline">
+		<label class="layui-form-label" style="width:120px;">单次最低购买</label>
+		<div class="layui-input-inline">
+			<input type="text" name="minbuy" class="layui-input" {notempty name="one.minbuy"}value="{$one.minbuy}"{/notempty}>
+		</div>
+		<div class="layui-form-mid layui-word-aux"> 件 (用户单次最低购买此商品数量限制，不填或者0为不限制)</div>
+	</div>
+</div>
+<div class="layui-form-item">
+	<div class="layui-inline">
+		<label class="layui-form-label" style="width:120px;">最多购买</label>
+		<div class="layui-input-inline">
+			<input type="text" name="totalbuy" class="layui-input" {notempty name="one.totalbuy"}value="{$one.totalbuy}"{/notempty}>
+		</div>
+		<div class="layui-form-mid layui-word-aux"> 件 (用户总共购买此商品数量限制，不填或者0为不限制)</div>
+	</div>
+</div>
+
+<div class="layui-form-item">
+	<label class="layui-form-label" style="width:120px;">会员浏览权限</label>
+	<div class="layui-input-block" style="margin-left: 150px;">
+		<select name="" lay-filter="usergroupread" id="usergroupread" lay-search>
+			<option value="">不设置默认全部会员等级</option>
+			{foreach name="usercate" item="v"}
+				<option value="{$v.id}-{$v.title}">{$v.title}</option>
+			{/foreach}
+		</select>
+	</div>
+</div>
+{notempty name="one.usergroupread"}
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width:120px;"></label>
+		<div class="layui-input-block" id="huiyuanl">
+			{foreach name="usercate" item="v"}
+	            {if in_array($v.id,$one.usergroupread)}
+	                <div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;position:relative;">
+	                    <input type="hidden" name="usergroupread[]" value="{$v.id}"> {$v.title}
+	                    <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a>
+	                </div>
+	            {/if}
+	        {/foreach}
+		</div>
+	</div>
+{else /}
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width:120px;"></label>
+		<div class="layui-input-block" id="huiyuanl"></div>
+	</div>
+{/notempty}
+<div class="layui-form-item">
+	<label class="layui-form-label" style="width:120px;">会员购买权限</label>
+	<div class="layui-input-block" style="margin-left: 150px;">
+		<select name="" lay-filter="usergroupbuy" id="usergroupbuy" lay-search>
+			<option value="">不设置默认全部会员等级</option>
+			{foreach name="usercate" item="v"}
+				<option value="{$v.id}-{$v.title}">{$v.title}</option>
+			{/foreach}
+		</select>
+	</div>
+</div>
+{notempty name="one.usergroupbuy"}
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width:120px;"></label>
+		<div class="layui-input-block" id="huiyuanm">
+			{foreach name="usercate" item="v"}
+	            {if in_array($v.id,$one.usergroupbuy)}
+	                <div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;position:relative;">
+	                    <input type="hidden" name="usergroupbuy[]" value="{$v.id}"> {$v.title}
+	                    <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a>
+	                </div>
+	            {/if}
+	        {/foreach}
+		</div>
+	</div>
+{else /}
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width:120px;"></label>
+		<div class="layui-input-block" id="huiyuanm"></div>
+	</div>
+{/notempty}

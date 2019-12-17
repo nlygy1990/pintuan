@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>编辑文章</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body class="form-wrap" >
+  <div class="x-nav">
+    <span class="layui-breadcrumb">
+      <a href="javascript:void(0);">首页</a>
+      <a href="javascript:void(0);">内容管理</a>
+      <a href="javascript:void(0);">文章管理</a>
+      <a><cite>编辑文章</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+      <i class="layui-icon" style="line-height:38px;font-size:12px">ဂ刷新</i>
+    </a>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="{:url('admin/cms/news')}" title="返回">
+      <i class="fa fa-reply"></i>返回
+    </a>
+  </div>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 15px;">
+        <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>类型</label>
+            <div class="layui-input-block">
+              <select name="pid" lay-filter="aihao">
+                <option value="">选择类型</option>
+                {foreach name="catelist" item="v" key="k"}
+                  <option value="{$v.id}" {notempty name="pid"}{eq name="v.id" value="$pid"}selected="selected"{/eq}{/notempty}>{$v.title}</option>
+                  {notempty name="v.child"}
+                    {foreach name="v.child" item="va" key="ka"}
+                      <option value="{$va.id}" {notempty name="pid"}{eq name="va.id" value="$pid"}selected="selected"{/eq}{else /}checked="checked"{/notempty}>&nbsp;&nbsp;├&nbsp;{$va.title}</option>
+                    {/foreach}
+                  {/notempty}
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>封面</label>
+            <div class="layui-input-block">
+              <div class="left" style="cursor:pointer;" id="fenming">
+                <img src="{notempty name="one.thumb"}{$one.thumb|getImage}{/notempty}" alt="" onerror="this.src='{:statics('img')}add_fm.png'" id="fmimg" style="width:192px;height:128px;"><br/>
+                <button type="button" class="layui-btn" style="width:192px;">上传封面</button>
+                <input type="hidden" name="thumb" {notempty name="one.thumb"}value="{$one.thumb}"{else /}value=""{/notempty} id="img">
+              </div>
+              <div class="left" style="padding-left:20px;">
+                <p style="text-align: center;">上传图片大小不能超过100kb，比例3：2</p>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>标题</label>
+            <div class="layui-input-block">
+              {notempty name="one.id"}<input type="hidden" name="id" value="{$one.id}">{/notempty}
+              <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" {notempty name="one.title"}value="{$one.title}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">SEO标题</label>
+            <div class="layui-input-block">
+              <input type="text" name="seo_title" required  lay-verify="required" placeholder="请输入SEO标题" autocomplete="off" class="layui-input" {notempty name="one.seo_title"}value="{$one.seo_title}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">关键字</label>
+            <div class="layui-input-block">
+              <input type="text" name="keywords" placeholder="请输入关键字" class="layui-input" {notempty name="one.keywords"}value="{$one.keywords}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">摘要</label>
+            <div class="layui-input-block">
+              <textarea name="description" id="description" placeholder="请输入摘要，选填，如果不填会默认抓取正文前54个字" class="layui-textarea" style="height:60px;">{notempty name="one.description"}{$one.description}{/notempty}</textarea>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>内容</label>
+            <div class="layui-input-block">
+              <textarea name="content" id="content" placeholder="请输入内容" class="layui-textarea" required  lay-verify="required" autocomplete="off" style="width:100%">{notempty name="one.content"}{$one.content}{/notempty}</textarea>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">标签</label>
+            <div class="layui-input-block">
+              <input type="checkbox" name="is_hot" lay-skin="primary" title="热门推荐" value="y" {notempty name="one.is_hot"}{eq name="one.is_hot" value="y"}checked="checked"{/eq}{/notempty}>
+              <input type="checkbox" name="is_index" lay-skin="primary" title="首页推荐" value="y" {notempty name="one.is_index"}{eq name="one.is_index" value="y"}checked="checked"{/eq}{/notempty}>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">作者</label>
+            <div class="layui-input-block">
+              <input type="text" name="author" required  lay-verify="required" placeholder="请输入作者" autocomplete="off" class="layui-input" {notempty name="one.author"}value="{$one.author}"{else /}value="{$admininfo.nickname?$admininfo.nickname:$admininfo.username}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">文章来源</label>
+            <div class="layui-input-block">
+              <input type="text" name="from_url" placeholder="请输入文章来源，原创可不填" class="layui-input" {notempty name="one.from_url"}value="{$one.from_url}"{else /}value=""{/notempty}>
+            </div>
+          </div>
+          <label class="layui-form-label">开始时间</label>
+            <div class="layui-input-block">
+              <input type="text" name="starttime" id="riqi" {notempty name="one.starttime"}value="{$one.starttime}"{/notempty} readonly="readonly" placeholder="请选择开始时间，不选则不限时间" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">结束时间</label>
+            <div class="layui-input-block">
+              <input type="text" name="endtime" id="riqia" {notempty name="one.endtime"}value="{$one.endtime}"{/notempty} readonly="readonly" placeholder="请选择结束时间，不选则不限时间" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">显示/隐藏</label>
+            <div class="layui-input-block">
+              <input type="checkbox" {notempty name="one.is_show"}{eq name="one.is_show" value="y"}checked="checked"{/eq}{else /}checked="checked"{/notempty} name="is_show" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="显示|隐藏" value="y">
+            </div>
+          </div>
+          <div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="{:statics('public')}ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="{:statics('public')}ueditor/ueditor.all.js"></script>
+<script type="text/javascript">
+  layui.use(['form','layer','upload','laydate'], function(){
+    $ = layui.jquery;
+    var form = layui.form,layer = layui.layer,upload = layui.upload,laydate = layui.laydate;
+    var uploadInst = upload.render({
+      elem: '#fenming',
+      url: '{:url('admin/base/upload')}?utitle=goods&name=file',
+      done: function(res){
+        if(res.code == 0) {
+          $("#fmimg").attr("src",res.returnData.url);
+          $("#img").val(res.returnData.id);
+        }else {
+          layer.msg(res.msg);
+        }
+      },
+      error: function(){
+      }
+    });
+    laydate.render({ 
+        elem: '#riqi',
+        min: '2000-1-1',
+        type:'datetime',
+        max: '{:date('Y-m-d',time()+60*60*24*365*20)}',
+        done: function(value, date, endDate){
+          console.log(value);
+        }
+    });
+    laydate.render({ 
+        elem: '#riqia',
+        min: '2000-1-1',
+        type:'datetime',
+        max: '{:date('Y-m-d',time()+60*60*24*365*20)}',
+        done: function(value, date, endDate){
+          console.log(value);
+        }
+    });
+    //监听提交
+    form.on('submit(froma)',function(e){
+      $.ajax({
+        url:"{:url('admin/cms/news_publish')}",
+        data:$('#froma').serialize(),
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            layer.msg(res.msg,{icon:1,time:2000});
+            setTimeout(function(){
+              window.history.go(-1);
+            },2000);
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+      return false;
+    });
+  });
+  var ue = UE.getEditor("content");
+</script>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>优惠券</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="javascript:void(0);">首页</a>
+        <a href="javascript:void(0);">营销管理</a>
+        <a href="javascript:void(0);">优惠券</a>
+        <a href="javascript:void(0);">发放记录</a>
+        <a><cite>发放优惠券</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i>
+      </a>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:history.go(-1);" title="返回">
+        <i class="fa fa-reply"></i>返回
+      </a>
+    </div>
+    <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 15px;">
+        <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>优惠券</label>
+            <div class="layui-input-block">
+              <select name="cid" lay-filter="cid" id="cid" lay-search>
+                <option value="">请选择要发放的优惠券</option>
+                {foreach name="coupons" item="v" key="k"}
+                  <option value="{$v.id}" {notempty name="cid"}{if $v.id==$cid}selected{/if}{/notempty}>{$v.title}</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">会员组</label>
+            <div class="layui-input-block">
+              <select name="" lay-filter="level" id="level" lay-search>
+                <option value="">请选择要发放到的会员组</option>
+                <option value="0-全部会员组">全部会员组</option>
+                {foreach name="level" item="v" key="k"}
+                  <option value="{$v.id}-{$v.title}">{$v.title}</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block" id="huiyuanm"></div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">会员</label>
+            <div class="layui-input-block">
+              <select name="" lay-filter="users" id="users" lay-search>
+                <option value="">请选择要发放到的会员</option>
+                <option value="0-全部会员">全部会员</option>
+                {foreach name="users" item="v" key="k"}
+                  <option value="{$v.id}-{$v.nickname}[{$v.username}]">{$v.nickname}[{$v.username}]</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"></label>
+            <div class="layui-input-block" id="huiyuana"></div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">站内信</label>
+            <div class="layui-input-block">
+              <select name="message" lay-filter="message" id="message" lay-search>
+                <option value="">请选择是否发送站内信</option>
+                <option value="y">发送站内信</option>
+                <option value="n">不发送站内信</option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item zhanneixin" style="margin-bottom: 0;display:none;">
+            <label class="layui-form-label">站内信模板</label>
+            <div class="layui-input-block">
+              <textarea name="messagetxt" id="" class="layui-textarea"></textarea>
+            </div>
+          </div>
+          <div class="layui-form-item zhanneixin" style="display:none;">
+            <div class="layui-input-block layui-form-mid layui-word-aux">
+              站内信模板样例: 尊敬的{{name}}用户，恭喜你获得【{{couponsname}}】优惠券一张，赶快去使用吧
+            </div>
+          </div>
+          <div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+    layui.use(['form','layer','upload','laydate'], function(){
+      $ = layui.jquery;
+      var form = layui.form,layer = layui.layer,upload = layui.upload,laydate = layui.laydate;
+      form.on('select(cid)', function(data){
+        var vv = data.value;
+        window.location.href = "{:url('admin/sale/coupons_fafang')}?cid="+vv;
+      })
+      form.on('select(level)', function(data){
+        var vv = data.value;
+        var arr = vv.split('-');
+        if(arr[0]=="0"){
+          $('#huiyuanm').html('');
+          var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                    <input type="hidden" name="level[]" value="'+arr[0]+'"> '+arr[1]+' \
+                    <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+                  </div>';
+          $('#huiyuanm').append(htm);
+        }else{
+          if(arr[0] && arr[1]){
+            var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                    <input type="hidden" name="level[]" value="'+arr[0]+'"> '+arr[1]+' \
+                    <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+                  </div>';
+          }else{
+            var htm = "";
+          }
+          var bjl = $('#huiyuanm').find('input').length;
+          var a = true;
+          for(var i=0; i<bjl; i++){
+            var ia = $('#huiyuanm').find('input').eq(i).val();
+            if(ia==arr[0]){
+              a = false;
+            }else if(ia=="0"){
+              var ia = $('#huiyuanm').find('input').eq(i).parent().remove();
+            }
+          }
+          if(a==true){
+            $('#huiyuanm').append(htm);
+          }
+        }
+      })
+      form.on('select(users)', function(data){
+        var vv = data.value;
+        var arr = vv.split('-');
+        if(arr[0]=="0"){
+          $('#huiyuana').html('');
+          var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                    <input type="hidden" name="user[]" value="'+arr[0]+'"> '+arr[1]+' \
+                    <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+                  </div>';
+          $('#huiyuana').append(htm);
+        }else{
+          if(arr[0] && arr[1]){
+            var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                    <input type="hidden" name="user[]" value="'+arr[0]+'"> '+arr[1]+' \
+                    <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+                  </div>';
+          }else{
+            var htm = "";
+          }
+          var bjl = $('#huiyuana').find('input').length;
+          var a = true;
+          for(var i=0; i<bjl; i++){
+            var ia = $('#huiyuana').find('input').eq(i).val();
+            if(ia==arr[0]){
+              a = false;
+            }else if(ia=="0"){
+              var ia = $('#huiyuana').find('input').eq(i).parent().remove();
+            }
+          }
+          if(a==true){
+            $('#huiyuana').append(htm);
+          }
+        }
+      })
+      form.on('select(message)', function(data){
+        var vv = data.value;
+        if(vv=="y"){
+          $('.zhanneixin').css('display','block');
+        }else{
+          $('.zhanneixin').css('display','none');
+        }
+      })
+      //监听提交
+    form.on('submit(froma)',function(e){
+      $.ajax({
+        url:"{:url('admin/sale/coupons_fafang')}",
+        data:$('#froma').serialize(),
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            layer.msg(res.msg,{icon:1,time:2000});
+            setTimeout(function(){
+              window.history.go(-1);
+            },2000);
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+      return false;
+    });
+    })
+  </script>
+</html>

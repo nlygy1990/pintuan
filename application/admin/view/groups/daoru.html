@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>规格/库存</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="javascript:void(0);">首页</a>
+        <a href="javascript:void(0);">人人拼团</a>
+        <a href="javascript:void(0);">订单管理</a>
+        <a><cite>导入</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i>
+      </a>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:history.go(-1)" title="返回">
+        <i class="fa fa-reply"></i>返回
+      </a>
+    </div>
+    <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 15px;">
+        <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>文件</label>
+            <div class="layui-input-block">
+              <div class="left" style="cursor:pointer;" id="fenming">
+                <button type="button" class="layui-btn" style="width:192px;">上传文件</button>
+                <input type="hidden" name="thumb" value="" id="img">
+              </div>
+              <div class="left" style="padding-left:20px;">
+                <p style="text-align: center;">支持xls和xlsx</p>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="froma">开始导入</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+<script type="text/javascript">
+  layui.use(['form','layer','upload','laydate'], function(){
+    $ = layui.jquery;
+    var form = layui.form,layer = layui.layer,upload = layui.upload,laydate = layui.laydate;
+    var uploadInst = upload.render({
+      elem: '#fenming',
+      url: '{:url('admin/groups/uploada')}',
+      accept: 'file',
+      done: function(res){
+        if(res.code == 0) {
+          layer.msg(res.msg,{icon:1,time:2000});
+          $("#img").val(res.returnData.url);
+        }else {
+          layer.msg(res.msg);
+        }
+      },
+      error: function(){
+      }
+    });
+    //监听提交
+    form.on('submit(froma)',function(e){
+      $.ajax({
+        url:"{:url('admin/groups/daoru_publish')}",
+        data:$('#froma').serialize(),
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code=='0'){
+            layer.msg(res.msg,{icon:1,time:2000});
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+      return false;
+    });
+  })
+</script>

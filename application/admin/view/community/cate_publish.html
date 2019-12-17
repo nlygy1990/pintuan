@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新增车型</title>
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body style="padding:10px 30px;">
+	<form class="layui-form" id="forma" method="POST"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+		<div class="layui-form-item">
+		    <div class="layui-input-block" style="margin-left:0">
+		    	{notempty name="one.id"}
+		    		<input type="hidden" name="id" value="{$one.id}">
+		    	{/notempty}
+		      	<input type="text" name="cate_title" placeholder="请输入社区类型标题" autocomplete="off" class="layui-input" {notempty name="one.cate_title"}value="{$one.cate_title}"{/notempty} style="width:90%;">
+		    </div>
+		</div>
+  		<div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+        </div>
+	</form>
+</body>
+<script type="text/javascript">
+	layui.use(['element','form','layer'], function(){
+	  	var element = layui.element,
+	  		layer = layui.layer,
+	  	  	form = layui.form;
+	  	form.on('submit(froma)', function(data){
+ 			layer.msg('正在提交', {
+  				icon: 16,
+  				shade: 0.3
+			});
+			$.ajax({
+ 				url:"{:url('admin/community/cate_publish')}",
+ 				data:$('#forma').serialize(),
+ 				type:'POST',
+ 				dataType:'json',
+ 				success:function(res){
+ 					layer.closeAll('loading');
+ 					if(res.code=='0'){
+ 						layer.msg(res.msg, {icon: 1});
+ 						setTimeout(function(){
+  							parent.layer.close(parent.layer.getFrameIndex(window.name));
+  							parent.location.reload();
+						}, 2000);
+ 					}else{
+ 						layer.msg(res.msg, {icon: 2});
+ 					}
+ 				},
+ 				error:function(res){
+ 					layer.closeAll('loading');
+ 					layer.msg('网络连接错误', {icon: 5});
+ 				}
+ 			})
+ 			return false;
+ 		})
+	});
+</script>
+</html>

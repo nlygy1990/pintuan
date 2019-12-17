@@ -1,0 +1,70 @@
+<style type="text/css">
+	.xiala{position: absolute; left:0;top:35px;width:100%;background:#fff;border:1px solid #ccc;padding:15px;z-index:99;max-height:150px;overflow: hidden;overflow-y: auto; overflow-x: auto;display:none;}
+	.xiala p{cursor:pointer; padding:5px 0;}
+</style>
+<div class="layui-form-item">
+    <label class="layui-form-label">上级分销商</label>
+    <div class="layui-input-block" style="position: relative;">
+        <input type="text" name="" placeholder="请选择上级分销商" class="layui-input" onkeyup="sousuo(this.value)" id="fxs" value="{$one.user_id|getMembers}">
+        <input type="hidden" name="user_id" value="{$one.user_id}" id="user_id">
+        <div class="xiala">
+        	
+        </div>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">团长代理</label>
+    <div class="layui-input-block">
+        <select name="tz_level" lay-filter="aihao">
+            <option value="0">普通团长</option>
+            <option value="1" {eq name="one.tz_level" value="1"}selected{/eq}>代理团长</option>
+            <option value="2" {eq name="one.tz_level" value="2"}selected{/eq}>总团长</option>
+        </select>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">累计佣金</label>
+    <div class="layui-form-mid layui-word-aux">
+        ￥ {$one.id|memberLjYj} 元
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">已打款佣金</label>
+    <div class="layui-form-mid layui-word-aux">
+        ￥ {$one.id|memberTixian} 元
+    </div>
+</div>
+<script type="text/javascript">
+	function sousuo(va){
+		if(va!=""){
+			$(".xiala").css('display','block');
+			$.ajax({
+		        url:"{:url('admin/member/checkmember')}",
+		        data:{va:va,uid:'{$one.id}'},
+		        dataType:'json',
+		        type:'post',
+		        success:function(res){
+		          	if(res.code=='0'){
+		          		var htm = '';
+		            	res.list.forEach(item=>{
+		            		htm += '<p onclick="xuanzhong(\''+item.id+'\',\''+item.nickname+'('+(item.phone?item.phone:'未绑定')+')'+'\')">'+item.nickname+'('+(item.phone?item.phone:'未绑定')+')'+'</p>';
+		            	})
+		            	$(".xiala").html(htm);
+		          	}else{
+		            	$(".xiala").html('<p>暂无数据</p>');
+		          	}
+		        },
+		        error:function(res){
+		          	layer.msg('网络连接错误',{icon:2,time:1000});
+		        }
+		    })
+		}else{
+			$(".xiala").css('display','none');
+		}
+	}
+	function xuanzhong(id,va){
+		$("#fxs").val(va);
+		$("#user_id").val(id);
+		$(".xiala").css('display','none');
+	}
+</script>

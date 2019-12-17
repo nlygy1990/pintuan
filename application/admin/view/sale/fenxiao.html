@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-L-admin1.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body class="form-wrap" >
+
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="javascript:void(0);">首页</a>
+        <a href="javascript:void(0);">营销管理</a>
+        <a><cite>人人分销</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px;font-size:12px">ဂ刷新</i>
+      </a>
+    </div>
+  <div class="layui-fluid" id="component-tabs">
+    <div class="layui-row">
+      <div class="layui-col-md12">
+        <div class="layui-card">
+          <div class="layui-card-body">
+            <div class="layui-tab">
+              <ul class="layui-tab-title" id="xuan_tab">
+                <li class="layui-this">分销比例</li>
+                <li>新人奖励</li>
+              </ul>
+              <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+                <div class="layui-tab-content" id="ying_tab">
+                  <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">分销</label>
+                      <div class="layui-input-block">
+                        <input type="checkbox" {notempty name="one.isdistribution"}{eq name="one.isdistribution" value="1"}checked="checked"{/eq}{else /}checked="checked"{/notempty} name="isdistribution" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="ON|Off" value="1">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">一级分销</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="distribution" class="layui-input" {notempty name="one.distribution"}value="{$one.distribution}"{/notempty}>
+                      </div>
+                      <div class="layui-form-mid layui-word-aux"> 元</div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">二级分销</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="distribution_2" class="layui-input" {notempty name="one.distribution_2"}value="{$one.distribution_2}"{/notempty}>
+                      </div>
+                      <div class="layui-form-mid layui-word-aux"> 元</div>
+                    </div>
+                    <div class="layui-form-item" style="margin-bottom:0px;">
+                      <label class="layui-form-label">三级分销</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="distribution_3" class="layui-input" {notempty name="one.distribution_3"}value="{$one.distribution_3}"{/notempty}>
+                      </div>
+                      <div class="layui-form-mid layui-word-aux"> 元</div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">&nbsp;</label>
+                      <div class="layui-form-mid layui-word-aux">
+                        分销方式: 1: 固定分销 2：比例分销 （如果不填写或填写0，则默认为没有分销比例）如果如果带%则为按成交价格的比例计算返现 <br/>
+                        固定分销:填写整数而不用填写% （比如：购买2件，设置10 元, 不管成交价格是多少， 则购买后获得20元返现）<br/>
+                        比例分销:在整数后面加上% （比如: 购买2件，设置10%元, 成交价格2 * 200= 400， 则购买后获得 40 元返现（400*10%））
+                      </div>
+                    </div>
+                  </div>
+                  <div class="layui-tab-item">
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">新人奖励</label>
+                      <div class="layui-input-block">
+                        <input type="checkbox" {notempty name="one.newuseropen"}{eq name="one.newuseropen" value="1"}checked="checked"{/eq}{else /}checked="checked"{/notempty} name="newuseropen" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="ON|Off" value="1">
+                      </div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">奖励金额</label>
+                      <div class="layui-input-inline">
+                        <input type="text" name="newuser" class="layui-input" {notempty name="one.newuser"}value="{$one.newuser}"{/notempty}>
+                      </div>
+                      <div class="layui-form-mid layui-word-aux"> 元</div>
+                    </div>
+                    <div class="layui-form-item">
+                      <label class="layui-form-label">&nbsp;</label>
+                      <div class="layui-form-mid layui-word-aux">
+                        奖励方式: 1: 固定奖励（如果不填写或填写0，则默认为没有固定奖励 <br/>
+                        固定奖励:填写整数 （比如：设置10 元, 只要拉得一个新人即可奖励10元）
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="layui-form-item layui-layout-admin">
+                  <div class="layui-input-block">
+                    <div class="layui-footer" style="left: 0;">
+                      <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+                      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+  </div>
+</body>
+<script type="text/javascript">
+  $("#xuan_tab li").click(function(){
+    var ii = $(this).index();
+    $('#ying_tab .layui-tab-item').removeClass('layui-show');
+    $('#ying_tab .layui-tab-item').eq(ii).addClass('layui-show');
+  })
+  layui.use(['form','upload','laydate'], function(){
+    form = layui.form,upload = layui.upload,laydate = layui.laydate;
+    //监听提交
+    form.on('submit(froma)',function(e){
+      $.ajax({
+        url:"{:url('admin/sale/fenxiao')}",
+        data:$('#froma').serialize(),
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code=='0'){
+            layer.msg(res.msg,{icon:1,time:2000});
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+      return false;
+    });
+  });
+</script>
+</html>

@@ -1,0 +1,65 @@
+<div class="layui-form-item">
+    <label class="layui-form-label">快速选择</label>
+    <div class="layui-input-block">
+        <select name="storeid" lay-search lay-filter="myselectshop">
+            {if $admininfo.shop_id=="0"}
+    			<option value="">请选择店铺</option>
+                {foreach name="shop" item="v"}
+                    <option value="{$v.id}" {notempty name="one.storeid"}{eq name="one.storeid" value="$v.id"}selected="selected"{/eq}{/notempty}>{$v.title}</option>
+                {/foreach}
+            {else /}
+                {foreach name="shop" item="v"}
+                    <option value="{$v.id}" {notempty name="one.storeid"}{eq name="one.storeid" value="$v.id"}selected="selected"{/eq}{/notempty}>{$v.title}</option>
+                {/foreach}
+            {/if}
+		</select>
+    </div>
+</div>
+{if $admininfo.shop_id=="0"}
+    <div class="layui-form-item">
+        <label class="layui-form-label">店铺名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="store_name" id="store_name" placeholder="请输入店铺名称" class="layui-input" {notempty name="one.store_name"}value="{$one.store_name}"{/notempty} readonly="readonly">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"><span class="x-red">*</span>店铺LOGO</label>
+        <div class="layui-input-block">
+            <div class="left" style="cursor:pointer;" id="fenminga">
+                <img src="{notempty name="one.store_logo"}{$one.store_logo|getImage}{/notempty}" alt="" onerror="this.src='{:statics('img')}add_fm.png'" id="fmimga" style="width:128px;height:128px;"><br/>
+                <input type="hidden" name="store_logo" {notempty name="one.store_logo"}value="{$one.store_logo}"{else /}value=""{/notempty} id="imga">
+            </div>
+            <div class="left" style="padding-left:20px;">
+                <p style="text-align: center;">上传图片大小不能超过100kb，比例1：1</p>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">店铺描述</label>
+        <div class="layui-input-block">
+            <textarea name="store_description" id="store_description" placeholder="请输入店铺描述" class="layui-textarea" readonly="readonly">{notempty name="one.store_description"}value="{$one.store_description}"{/notempty}</textarea>
+        </div>
+    </div>
+{else /}
+    <div class="layui-form-item">
+        <label class="layui-form-label">店铺名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="store_name" id="store_name" placeholder="请输入店铺名称" class="layui-input" {notempty name="shop.0.title"}value="{$shop.0.title}"{/notempty} readonly="readonly">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"><span class="x-red">*</span>店铺LOGO</label>
+        <div class="layui-input-block">
+            <div class="left" style="cursor:pointer;">
+                <img src="{notempty name="shop.0.logo"}{$shop.0.logo|getImage}{/notempty}" alt="" onerror="this.src='{:statics('img')}add_fm.png'" id="fmimga" style="width:192px;height:128px;"><br/>
+                <input type="hidden" name="store_logo" {notempty name="shop.0.logo"}value="{$shop.0.logo}"{else /}value=""{/notempty} id="imga">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">店铺描述</label>
+        <div class="layui-input-block">
+            <textarea name="store_description" id="store_description" placeholder="请输入店铺描述" class="layui-textarea" readonly="readonly">{notempty name="shop.0.description"}value="{$shop.0.description}"{/notempty}</textarea>
+        </div>
+    </div>
+{/if}

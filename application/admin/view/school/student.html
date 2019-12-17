@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>学生列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="javascript:void(0);">首页</a>
+        <a href="javascript:void(0);">学校管理</a>
+        <a><cite>学生管理</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i>
+      </a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so layui-form-pane" id="search">
+          {if ($admininfo.stores_id=="0") AND ($admininfo.school_id=="0") AND ($admininfo.shop_id=="0") AND ($admininfo.hospital_id=="0")}
+          <label class="layui-form-label">所在地</label>
+          <div class="layui-inline">
+            <select name="sheng" lay-filter="myselect" id="sheng" lay-search>
+              <option value="">全部省</option>
+              {foreach name="sheng" item="v"}
+                <option value="{$v.region_id}" {notempty name="sheng_id"}{eq name="sheng_id" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+              {/foreach}
+            </select>
+          </div>
+          <div class="layui-inline">
+            <select name="shi" lay-filter="myselect2" id="City" lay-search>
+              <option value="">全部市</option>
+              {notempty name="shi"}
+                {foreach name="shi" item="v"}
+                  <option value="{$v.region_id}" {notempty name="shi_id"}{eq name="shi_id" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                {/foreach}
+              {/notempty}
+            </select>
+          </div>
+          <div class="layui-inline">
+            <select name="qu" lay-filter="myselect3" id="qu" lay-search>
+              <option value="">全部区县</option>
+              {notempty name="qu"}
+                {foreach name="qu" item="v"}
+                  <option value="{$v.region_id}" {notempty name="qu_id"}{eq name="qu_id" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                {/foreach}
+              {/notempty}
+            </select>
+          </div>
+          <div class="layui-inline">
+            <select name="school_id" lay-filter="myselect4" id="school_id" lay-search>
+              <option value="">全部学校</option>
+              {foreach name="school" item="v"}
+                <option value="{$v.id}" {notempty name="school_id"}{eq name="school_id" value="$v.id"}selected="selected"{/eq}{/notempty}>{$v.title}</option>
+              {/foreach}
+            </select>
+          </div>
+          <div class="layui-inline">
+            <select name="class_id" lay-filter="myselect5" id="class_id" lay-search>
+              <option value="">全部班级</option>
+              {foreach name="class" item="v"}
+                <option value="{$v.id}" {notempty name="class_id"}{eq name="class_id" value="$v.id"}selected="selected"{/eq}{/notempty}>{$v.title}</option>
+              {/foreach}
+            </select>
+          </div>
+          {elseif $admininfo.school_id>0}
+          <div class="layui-inline">
+            <select name="class_id" lay-filter="myselect5" id="class_id" lay-search>
+              <option value="">全部班级</option>
+              {foreach name="class" item="v"}
+                <option value="{$v.id}" {notempty name="class_id"}{eq name="class_id" value="$v.id"}selected="selected"{/eq}{/notempty}>{$v.title}</option>
+              {/foreach}
+            </select>
+          </div>
+          {/if}
+          <input type="text" name="keys"  placeholder="请输入关键字" autocomplete="off" class="layui-input" style="width:300px" value="{$Request.get.keys}">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+      </div>
+      <xblock>
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn" onclick="edits('添加学生','{:url('admin/school/student_publish')}')"><i class="layui-icon"></i>添加学生</button>
+        <span class="x-right" style="line-height:40px">共有数据：{$count} 条</span>
+      </xblock>
+      <table class="layui-table layui-form">
+        <thead>
+          <tr>
+            <th width="20">
+              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+            </th>
+            <th width="70">编号</th>
+            <th width="200">学校</th>
+            <th width="200">班级</th>
+            <th width="100">学号</th>
+            <th>姓名</th>
+            <th width="50">性别</th>
+            <th width="50">状态</th>
+            <th width="140">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foreach name="list" key="k" item="v"}
+            <tr>
+              <td>
+                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{$v.id}'><i class="layui-icon">&#xe605;</i></div>
+              </td>
+              <td>{$v.id}</td>
+              <td>{$v.school_title}</td>
+              <td>{foreach name="class" item="va"}{eq name="va.id" value="$v.class_id"}{$va.title}{/eq}{/foreach}</td>
+              <td>{$v.no}</td>
+              <td>{$v.name}</td>
+              <td>{$v.sex=='M' ? '男' : '女'}</td>
+              <td class="yc">
+                  <input type="checkbox" name="switch"  lay-text="ON|OFF" class="hide-show" data-id="{$v.id}" data-st="{$v.is_show}" {eq name="v.is_show" value="y"}checked=""{/eq} lay-skin="switch">
+                </td>
+              <td>
+                <button class="layui-btn layui-btn layui-btn-xs"  onclick="edits('编辑学校','{:url('admin/school/student_publish',['id'=>$v.id])}','',550)" ><i class="layui-icon">&#xe642;</i>编辑</button>
+                  <button class="layui-btn-danger layui-btn layui-btn-xs" onclick="member_del(this,'{$v.id}')" href="javascript:void(0);" ><i class="layui-icon">&#xe640;</i>删除</button>
+              </td>
+            </tr>
+          {/foreach}
+        </tbody>
+      </table>
+      <div id="page" {eq name="count" value="0"}style="display:none;"{/eq}>
+        {$list|raw}
+      </div>
+      {eq name="count" value="0"}
+        <p style="text-align:center;line-height:80px;color:red;font-size:16px;">暂时没有相关学生</p>
+      {/eq}
+    </div>
+  </body>
+  <script type="text/javascript">
+    $(document).on('click','.yc .layui-unselect',function(){
+      var id = $(this).siblings('input').attr('data-id');
+      var va = $(this).siblings('input').attr('data-st');
+      var that = this;
+      $.ajax({
+        url:"{:url('admin/school/student_show')}",
+        data:{id:id,va:va},
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code=='0'){
+            layer.msg(res.msg,{icon:1,time:2000});
+            $(that).siblings('input').attr('data-st',res.va);
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+    })
+    layui.use(['form','layer'], function(){
+      $ = layui.jquery;
+      var form = layui.form,layer = layui.layer;
+      form.on('select(myselect)', function(data){
+        var areaId = data.value;
+        $('#City').val('');
+        $('#qu').val('');
+        $('#school_id').val('');
+        $('#class_id').val('');
+        $('#search').submit();
+      })
+      form.on('select(myselect2)', function(data){
+        var areaId = data.value;
+        $('#qu').val('');
+        $('#school_id').val('');
+        $('#class_id').val('');
+        $('#search').submit();
+      })
+      form.on('select(myselect3)', function(data){
+        var areaId = data.value;
+        $('#school_id').val('');
+        $('#class_id').val('');
+        $('#search').submit();
+      })
+      form.on('select(myselect4)', function(data){
+        var areaId = data.value;
+        $('#class_id').val('');
+        $('#search').submit();
+      })
+      form.on('select(myselect5)', function(data){
+        var areaId = data.value;
+        $('#search').submit();
+      })
+    })
+    function edits(title,url){
+      window.location.href = url;
+    }
+    /*删除*/
+    function member_del(obj,id){
+      layer.confirm('确认要删除该班级吗？',function(index){
+        //发异步删除数据
+        $.ajax({
+          url:"{:url('admin/school/student_del')}",
+          data:{id:id},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+      });
+    }
+    function delAll (argument) {
+      var data = tableCheck.getData();
+      layer.confirm('确认要删除吗？',function(index){
+        //捉到所有被选中的，发异步进行删除
+        $.ajax({
+          url:"{:url('admin/school/student_del')}",
+          data:{id:data},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+      });
+    }
+  </script>
+</html>

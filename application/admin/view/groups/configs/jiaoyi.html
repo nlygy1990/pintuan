@@ -1,0 +1,16 @@
+<div class="layui-form-item" style="margin-bottom:0px;">
+	<label class="layui-form-label">团长优惠</label>
+	<div class="layui-input-inline">
+		<input type="text" name="pt[tuanzhang_youhui]" class="layui-input" {notempty name="one.tuanzhang_youhui"}value="{$one.tuanzhang_youhui}"{/notempty}>
+	</div>
+	<div class="layui-form-mid layui-word-aux"> 元</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">&nbsp;</label>
+	<div class="layui-form-mid layui-word-aux">
+		团长购买优惠, 如果不填写或填写0，则默认为团长支付0元即可参加拼团 <br/>
+		如: 设置0或不填, 不管团购价设置多少，团长都是0元购买<br/>
+		如: 设置10, 团购价400， 则团长支付390即可购买（400-10）拼团价不满10元的则0元购得<br/>
+		如: 设置50%, 团购价400， 则团长支付200即可购买（400*50%）
+	</div>
+</div>

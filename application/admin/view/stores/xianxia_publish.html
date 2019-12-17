@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>编辑文章</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body class="form-wrap" >
+  <div class="x-nav">
+    <span class="layui-breadcrumb">
+      <a href="javascript:void(0);">首页</a>
+      <a href="javascript:void(0);">门店管理</a>
+      <a href="javascript:void(0);">线下订单</a>
+      <a><cite>编辑订单</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+      <i class="layui-icon" style="line-height:38px;font-size:12px">ဂ刷新</i>
+    </a>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:history.go(-1);" title="返回">
+      <i class="fa fa-reply"></i>返回
+    </a>
+  </div>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 15px;">
+        <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>订单号</label>
+            <div class="layui-input-block">
+              <input type="text" name="ordersn" required  lay-verify="required" placeholder="请输入订单号" autocomplete="off" class="layui-input" {notempty name="ordersn"}value="{$ordersn}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>订单流水号</label>
+            <div class="layui-input-block">
+              <input type="hidden" name="stores_id" value="{$admininfo.stores_id}">
+              <input type="text" name="no" required  lay-verify="required" placeholder="请输入订单流水号" autocomplete="off" class="layui-input" value="{:date("YmdHis").rand(1000,9999)}">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>客户类型</label>
+            <div class="layui-input-block">
+              <select name="kehu_types" lay-filter="aihao" lay-search>
+                <option value="">请选择客户类型</option>
+                {foreach name="kehutype" item="v"}
+                  <option value="{$v.id}">{$v.title}</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>客户姓名</label>
+            <div class="layui-input-block">
+              <input type="text" name="kehu_name" required  lay-verify="required" autocomplete="off" placeholder="请输入客户姓名" class="layui-input" value="">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>客户电话</label>
+            <div class="layui-input-block">
+              <input type="text" name="kehu_phone" required  lay-verify="required" placeholder="请输入客户电话" autocomplete="off" class="layui-input" value="">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>下单日期</label>
+            <div class="layui-input-block">
+              <input type="text" name="buydate" id="riqi" readonly="readonly" placeholder="请选择上架时间，不选则不限时间" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>备注</label>
+            <div class="layui-input-block">
+              <textarea name="remark" id="remark" placeholder="请输入备注" class="layui-textarea" style="height:60px;"></textarea>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">商品属性</label>
+            <div class="layui-input-block">
+              <input type="radio" name="goods_types" lay-skin="primary" title="线下商品" value="xianxia" checked>
+              <!-- <input type="radio" name="goods_types" lay-skin="primary" title="线上商品" value="xianshang"> -->
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">商品</label>
+            <div class="layui-input-block">
+              <button type="button" class="layui-btn" style="width:192px;" onclick="addSp()">添加商品</button>
+            </div>
+          </div>
+          <table class="layui-table layui-form">
+            <thead>
+              <tr>
+                <th>商品</th>
+                <th>规格</th>
+                <th width="80">售价:元</th>
+                <th width="80">原价:元</th>
+                <th width="80">成本价:元</th>
+                <th width="80">数量</th>
+                <th width="80">编码</th>
+                <th width="80">条码</th>
+                <th width="80">操作</th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+              <tr id="iid0">
+                <td><input type="text" required  lay-verify="required" autocomplete="off" class="layui-input x-sort" name="goods[0][goods_title]" value=""></td>
+                <td><input type="text" class="layui-input x-sort" name="goods[0][desc_title]" value=""></td>
+                <td><input type="text" required  lay-verify="required" autocomplete="off" class="layui-input x-sort marketprice" name="goods[0][marketprice]" onkeyup="marketpricejisuan('iid0');" value=""></td>
+                <td><input type="text" class="layui-input x-sort goodsprice" name="goods[0][goodsprice]" onkeyup="goodspricejisuan('iid0');" value=""></td>
+                <td><input type="text" class="layui-input x-sort productprice" name="goods[0][productprice]" onkeyup="productpricejisuan('iid0');" value=""></td>
+                <td><input type="text" required  lay-verify="required" autocomplete="off" class="layui-input x-sort total" name="goods[0][total]" onkeyup="totaljisuan('iid0');" value=""></td>
+                <td><input type="text" class="layui-input x-sort" name="goods[0][goodssn]" value=""></td>
+                <td><input type="text" class="layui-input x-sort" name="goods[0][productsn]" value=""></td>
+                <td>
+                  <a class="layui-btn-danger layui-btn layui-btn-xs" style="background:#ccc;" href="javascript:void(0);" ><i class="layui-icon">&#xe640;</i>删除</a>
+                </td>
+              </tr>
+            </tbody>
+            <tr>
+              <td colspan="2" style="text-align: right;">合计</td>
+              <td>
+                <input type="text" name="marketprice" class="layui-input x-sort" id="marketprice" value="0.00">
+              </td>
+              <td>
+                <input type="text" name="goodsprice" class="layui-input x-sort" id="goodsprice" value="0.00">
+              </td>
+              <td>
+                <input type="text" name="productprice" class="layui-input x-sort" id="productprice" value="0.00">
+              </td>
+              <td>
+                <input type="text" name="total" class="layui-input x-sort" id="total" value="0">
+              </td>
+              <td colspan="3"></td>
+            </tr>
+          </table>
+          <div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  function addSp() {
+    var timestamp = (new Date()).valueOf();
+    var htm = '<tr id="iid'+timestamp+'"> \
+                <td><input type="text" required  lay-verify="required" autocomplete="off" class="layui-input x-sort" name="goods['+timestamp+'][goods_title]" value=""></td> \
+                <td><input type="text" class="layui-input x-sort" name="goods['+timestamp+'][desc_title]" value=""></td> \
+                <td><input type="text" required  lay-verify="required" autocomplete="off" class="layui-input x-sort marketprice" name="goods['+timestamp+'][marketprice]" onkeyup="marketpricejisuan(\'iid'+timestamp+'\');" value=""></td> \
+                <td><input type="text" class="layui-input x-sort goodsprice" name="goods['+timestamp+'][goodsprice]" onkeyup="goodspricejisuan(\'iid'+timestamp+'\');" value=""></td> \
+                <td><input type="text" class="layui-input x-sort productprice" name="goods['+timestamp+'][productprice]" onkeyup="productpricejisuan(\'iid'+timestamp+'\');" value=""></td> \
+                <td><input type="text" required  lay-verify="required" autocomplete="off" class="layui-input x-sort total" name="goods['+timestamp+'][total]" onkeyup="totaljisuan(\'iid'+timestamp+'\');" value=""></td> \
+                <td><input type="text" class="layui-input x-sort" name="goods['+timestamp+'][goodssn]" value=""></td> \
+                <td><input type="text" class="layui-input x-sort" name="goods['+timestamp+'][productsn]" value=""></td> \
+                <td> \
+                  <a class="layui-btn-danger layui-btn layui-btn-xs" onclick="$(this).parent().parent().remove();marketpricejisuan(\'iid'+timestamp+'\');goodspricejisuan(\'iid'+timestamp+'\');productpricejisuan(\'iid'+timestamp+'\');totaljisuan(\'iid'+timestamp+'\');" href="javascript:void(0);" ><i class="layui-icon">&#xe640;</i>删除</a> \
+                </td> \
+              </tr>';
+    $('#tbody').append(htm);
+  }
+  function marketpricejisuan(obj){
+    var ll = $('.marketprice').length;
+    var nn = 0;
+    for(var i=0;i<ll;i++){
+      var nnn = $('.marketprice').eq(i).val();
+      nn = Number(nn)+Number(nnn);
+    }
+    var total = $("#"+obj+" .total").val();
+    nn = (nn*total).toFixed(2);
+    $("#marketprice").val(nn);
+  }
+  function goodspricejisuan(obj){
+    var ll = $('.goodsprice').length;
+    var nn = 0;
+    for(var i=0;i<ll;i++){
+      var nnn = $('.goodsprice').eq(i).val();
+      nn = Number(nn)+Number(nnn);
+    }
+    var total = $("#"+obj+" .total").val();
+    $("#goodsprice").val(nn);
+  }
+  function productpricejisuan(obj){
+    var ll = $('.productprice').length;
+    var nn = 0;
+    for(var i=0;i<ll;i++){
+      var nnn = $('.productprice').eq(i).val();
+      nn = Number(nn)+Number(nnn);
+    }
+    var total = $("#"+obj+" .total").val();
+    nn = (nn*total).toFixed(2);
+    $("#productprice").val(nn);
+  }
+  function totaljisuan(obj){
+    var ll = $('.total').length;
+    var nn = 0;
+    for(var i=0;i<ll;i++){
+      var nnn = $('.total').eq(i).val();
+      nn = Number(nn)+Number(nnn);
+    }
+    nn = nn.toFixed(0);
+    $("#total").val(nn);
+
+    var marketprice = $("#"+obj+" .marketprice").val();
+    var nmarketprice = marketprice*nn;
+    $("#marketprice").val(nmarketprice.toFixed(2));
+
+    var goodsprice = $("#"+obj+" .goodsprice").val();
+    var ngoodsprice = goodsprice*nn;
+    $("#goodsprice").val(ngoodsprice.toFixed(2));
+
+    var productprice = $("#"+obj+" .productprice").val();
+    var nproductprice = productprice*nn;
+    $("#productprice").val(nproductprice.toFixed(2));
+  }
+  layui.use(['form','upload','laydate'], function(){
+    form = layui.form,upload = layui.upload,laydate = layui.laydate;
+    laydate.render({ 
+        elem: '#riqi',
+        min: '2000-1-1',
+        type:'datetime',
+        max: '{:date('Y-m-d',time())}',
+        done: function(value, date, endDate){
+          console.log(value);
+        }
+    });
+    //监听提交
+    form.on('submit(froma)',function(e){
+      $.ajax({
+        url:"{:url('admin/stores/xianxia_publish')}",
+        data:$('#froma').serialize(),
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            layer.msg(res.msg,{icon:1,time:2000});
+            setTimeout(function(){
+              window.history.go(-1);
+            },2000);
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+      return false;
+    });
+  })
+</script>
+</html>

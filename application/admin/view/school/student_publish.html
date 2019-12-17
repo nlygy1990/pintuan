@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>编辑学生</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body class="form-wrap" >
+  <div class="x-nav">
+    <span class="layui-breadcrumb">
+      <a href="javascript:void(0);">首页</a>
+      <a href="javascript:void(0);">学校管理</a>
+      <a href="javascript:void(0);">学生管理</a>
+      <a><cite>编辑学生</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+      <i class="layui-icon" style="line-height:38px;font-size:12px">ဂ刷新</i>
+    </a>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="{:url('admin/school/student')}" title="返回">
+      <i class="fa fa-reply"></i>返回
+    </a>
+  </div>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 15px;">
+        <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>所在学校</label>
+            <div class="layui-input-block">
+              <select name="school_id" lay-filter="myselecta" id="school" lay-search>
+                {if $admininfo.school_id=="0"}
+                  <option value="">请选择学校</option>
+                  {foreach name="school" item="v"}
+                    <option value="{$v.id}" {notempty name="one.school_id"}{if $one.school_id==$v.id}selected="selected"{/if}{/notempty}>{$v.title}</option>
+                  {/foreach}
+                {else /}
+                  {foreach name="school" item="v"}
+                    <option value="{$v.id}" {notempty name="one.school_id"}{if $one.school_id==$v.id}selected="selected"{/if}{/notempty}>{$v.title}</option>
+                  {/foreach}
+                {/if}
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>所在班级</label>
+            <div class="layui-input-block">
+              <select name="class_id" id="class_id" lay-search>
+                <option value="">请选择班级</option>
+                {foreach name="class" item="v"}
+                  <option value="{$v.id}" {notempty name="one.class_id"}{if $one.class_id==$v.id}selected="selected"{/if}{/notempty}>{$v.title}</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>学号</label>
+            <div class="layui-input-block">
+              {notempty name="one.id"}<input type="hidden" name="id" value="{$one.id}">{/notempty}
+              <input type="text" name="no" required  lay-verify="required" placeholder="请输入学号" autocomplete="off" class="layui-input" {notempty name="one.no"}value="{$one.no}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>姓名</label>
+            <div class="layui-input-block">
+              <input type="text" name="name" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input" {notempty name="one.name"}value="{$one.name}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>性别</label>
+            <div class="layui-input-block">
+              <input type="radio" name="sex" value="M" title="男" {notempty name="one.sex"}{eq name="one.sex" value="M"}checked="checked"{/eq}{else /}checked="checked"{/notempty}>
+              <input type="radio" name="sex" value="F" title="女" {notempty name="one.sex"}{eq name="one.sex" value="F"}checked="checked"{/eq}{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>生日</label>
+            <div class="layui-input-block">
+              <input type="text" name="birthday" id="riqi" {notempty name="one.birthday"}value="{$one.birthday}"{/notempty} readonly="readonly" placeholder="请选择生日" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">家庭所在地</label>
+            <div class="layui-input-block">
+              <div class="layui-inline">
+                <select name="sheng" lay-filter="myselect" id="sheng" lay-search>
+                  <option value="">请选择省</option>
+                  {foreach name="sheng" item="v"}
+                    <option value="{$v.region_id}" {notempty name="one.sheng"}{eq name="one.sheng" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                  {/foreach}
+                </select>
+              </div>
+              <div class="layui-inline">
+                <select name="shi" id="City" lay-filter="myselect2" lay-search>
+                  <option value="">请选择市</option>
+                  {notempty name="shi"}
+                    {foreach name="shi" item="v"}
+                      <option value="{$v.region_id}" {notempty name="one.shi"}{eq name="one.shi" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                    {/foreach}
+                  {/notempty}
+                </select>
+              </div>
+              <div class="layui-inline">
+                <select name="qu" id="qu" lay-filter="myselect3" lay-search>
+                  <option value="">请选择区县</option>
+                  {notempty name="qu"}
+                    {foreach name="qu" item="v"}
+                      <option value="{$v.region_id}" {notempty name="one.qu"}{eq name="one.qu" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                    {/foreach}
+                  {/notempty}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">家庭地址</label>
+            <div class="layui-input-block">
+              <input type="text" name="address" placeholder="请输入家庭地址" class="layui-input" {notempty name="one.address"}value="{$one.address}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">家长账号</label>
+            <div class="layui-input-block">
+              <select name="user_id" id="user_id" lay-search>
+                <option value="">请选择绑定的家长账号</option>
+                {foreach name="user" item="v"}
+                  <option value="{$v.id}" {notempty name="one.user_id"}{if $one.user_id==$v.id}selected="selected"{/if}{/notempty}>{$v.nickname}[账号：{$v.username}，手机：{$v.phone}]</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">身份证号</label>
+            <div class="layui-input-block">
+              <input type="text" name="idcard" placeholder="请输入身份证号，非必填" class="layui-input" {notempty name="one.idcard"}value="{$one.idcard}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">紧急联系人</label>
+            <div class="layui-input-block">
+              <div class="layui-inline">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="lxr_name" class="layui-input" {notempty name="one.lxr_name"}value="{$one.lxr_name}"{/notempty}>
+                </div>
+              </div>
+              <div class="layui-inline">
+                <label class="layui-form-label">电话</label>
+                <div class="layui-input-inline">
+                  <input type="text" name="lxr_tel" class="layui-input" {notempty name="one.lxr_tel"}value="{$one.lxr_tel}"{/notempty}>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">本人电话</label>
+            <div class="layui-input-block">
+              <input type="text" name="phone" placeholder="请输入本人电话" class="layui-input" {notempty name="one.phone"}value="{$one.phone}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  layui.use(['form','upload','laydate'], function(){
+    form = layui.form,upload = layui.upload,laydate = layui.laydate;
+    laydate.render({ 
+        elem: '#riqi',
+        min: '1900-1-1',
+        type:'date',
+        max: '{:date('Y-m-d',time()+60*60*24*365*20)}',
+        done: function(value, date, endDate){
+          console.log(value);
+        }
+    });
+    form.on('select(myselecta)', function(data){
+      var areaId = data.value;
+      if(areaId){
+        $.ajax({
+          url:"{:url('admin/base/Ckclass')}",
+          data:{id:areaId},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code==0){
+              $("#class_id").html("");
+              var oo = '<option value="">请选择班级</option>';
+              $("#class_id").append(oo);
+              $.each(res.returnData,function(key,val) {
+                  var option1 = $("<option>").val(val.id).text(val.title);
+                  $("#class_id").append(option1);
+                  form.render('select');
+              }); 
+              $("#class_id").get(0).selectedIndex=0;
+            }else{
+              $("#class_id").html("");
+              var oo = '<option value="">请选择班级</option>';
+              $("#class_id").append(oo);
+              $("#class_id").get(0).selectedIndex=0;
+            }
+          }
+        })
+      }else{
+        $("#class_id").html("");
+      }
+      return false;
+    })
+    form.on('submit(froma)',function(e){
+      $.ajax({
+        url:"{:url('admin/school/student_publish')}",
+        data:$('#froma').serialize(),
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            layer.msg(res.msg,{icon:1,time:2000});
+            setTimeout(function(){
+              window.history.go(-1);
+            },2000);
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+      return false;
+    });
+    form.on('select(myselect)', function(data){
+      var areaId = data.value;
+      $.ajax({
+        url:"{:url('admin/base/region')}",
+        data:{id:areaId},
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            $("#City").html("");
+            var oo = '<option value="">请选择市</option>';
+            $("#City").append(oo);
+            $("#qu").html("");
+            var ooa = '<option value="">请选择区县</option>';
+            $("#qu").append(ooa);
+            $.each(res.returnData,function(key,val) {
+                var option1 = $("<option>").val(val.region_id).text(val.region_name);
+                $("#City").append(option1);
+                form.render('select');
+            }); 
+            $("#City").get(0).selectedIndex=0;
+          }else{
+            $("#City").css("display:none");
+          }
+        }
+      })
+      return false;
+    })
+    form.on('select(myselect2)', function(data){
+      var areaId = data.value;
+      $.ajax({
+        url:"{:url('admin/base/region')}",
+        data:{id:areaId},
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            $("#qu").html("");
+            var oo = '<option value="">请选择区县</option>';
+            $("#qu").append(oo);
+            $.each(res.returnData,function(key,val) {
+                var option1 = $("<option>").val(val.region_id).text(val.region_name);
+                $("#qu").append(option1);
+                form.render('select');
+             }); 
+             $("#qu").get(0).selectedIndex=0;
+          }else{
+            $("#qu").css("display:none");
+          }
+        }
+      })
+      return false;
+    })
+  })
+</script>
+</html>

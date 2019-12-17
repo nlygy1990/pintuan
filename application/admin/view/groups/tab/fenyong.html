@@ -1,0 +1,33 @@
+<div class="layui-form-item" style="margin-bottom:0px;">
+	<label class="layui-form-label">团长奖励</label>
+	<div class="layui-input-inline">
+		<input type="text" name="tuanzhang_jiangli" class="layui-input" {notempty name="one.tuanzhang_jiangli"}value="{$one.tuanzhang_jiangli}"{/notempty}>
+	</div>
+	<div class="layui-form-mid layui-word-aux"> 元</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">&nbsp;</label>
+	<div class="layui-form-mid layui-word-aux">
+		团员奖励, 如果不填写或填写0，则默认为不奖励团长 <br/>
+		如: 设置0或不填, 不管团购价设置多少，团长都获取不到奖励<br/>
+		如: 设置10, 不管整个拼团的总团购价多少，都给团长奖励10<br/>
+		如: 设置5%, 整个拼团总团购价400， 则团长可奖励20（400*5%）
+	</div>
+</div>
+
+<div class="layui-form-item" style="margin-bottom:0px;">
+	<label class="layui-form-label">团员奖励</label>
+	<div class="layui-input-inline">
+		<input type="text" name="tuanyuan_jiangli" class="layui-input" {notempty name="one.tuanyuan_jiangli"}value="{$one.tuanyuan_jiangli}"{/notempty}>
+	</div>
+	<div class="layui-form-mid layui-word-aux"> 元</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">&nbsp;</label>
+	<div class="layui-form-mid layui-word-aux">
+		团员奖励, 如果不填写或填写0，则默认为不奖励团员 <br/>
+		如: 设置0或不填, 不管团购价设置多少，团员都获取不到奖励<br/>
+		如: 设置10, 不管整个拼团的总团购价多少，都给每位团员奖励10(团长除外)<br/>
+		如: 设置5%, 整个拼团总团购价400， 则每位团员(团长除外)可奖励20（400*5%）
+	</div>
+</div>

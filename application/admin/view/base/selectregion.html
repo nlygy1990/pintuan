@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>省市选择</title>
+    <link rel="stylesheet" type="text/css" href="{:statics('css')}bootstrap.min.css">
+    <link rel="stylesheet" href="{:statics('css')}RegionalChoice.css" />
+</head>
+
+<body>
+    <div class="modal-body">
+        <div class="test-div"></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" id="guanbi">关闭</button>
+        <button type="button" class="btn btn-primary btntest1">确定</button>
+    </div>   
+</body>
+
+<script src="{:statics('js')}jquery.min.js"></script>
+<script src="{:statics('js')}bootstrap.min.js"></script>
+<script type="text/javascript">
+    var datas = {:json_encode($datas,JSON_UNESCAPED_UNICODE)};
+</script>
+<script src="{:statics('js')}RegionalChoice.js"></script>
+<script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+<script>
+    $(function () {
+        //------生成地区
+        GetRegionPlug();
+        //------选择后确定按钮
+        $(".btntest1").click(function () {
+            var areas = GetChecked().join(",");//已选择的城市名
+            var arr = areas.split(',');
+            var htm  = '';
+            for(var i = 0; i<arr.length; i++){
+                var arra = arr[i].split('-');
+                htm += '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px; margin-bottom:10px;position:relative;"> \
+                <input type="hidden" name="edareas[]" value="'+arra[1]+'"> '+arra[0]+' \
+                <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+              </div>';
+            }
+            console.log(htm);
+            parent.$("#bubaoyou").html(htm);
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+        $("#guanbi").click(function(){
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+    })
+</script>
+
+</html>

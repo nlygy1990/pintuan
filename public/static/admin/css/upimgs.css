@@ -1,0 +1,28 @@
+.progress{position:relative;padding: 1px; border-radius:3px; margin:30px 0 0 0;}
+.bar{background-color: green; display:block; width:0%; height:20px; border-radius:3px;}
+.percent{position:absolute; height:20px; display:inline-block;top:3px; left:2%; color:#fff}
+.progress{height: 100px;padding: 30px 0 0;width:100px;border-radius: 0;}
+.btn{-webkit-border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px; -o-border-radius:3px; border-radius:3px;
+    background-color:#009688; color:#fff; display:inline-block; height:38px; line-height:38px; text-align:center; padding:0 12px; transition:background-color .2s linear 0s; border:0; cursor:pointer;text-decoration: none}
+.btn:hover{}
+.photos_area .item {float: left;margin: 0 10px 10px 0;position: relative;}
+.photos_area .item{position: relative;float:left;margin:0 10px 10px 0;}
+.photos_area .item img{border: 1px solid #cdcdcd;}
+.photos_area .operate{background: rgba(33, 33, 33, 0.7) none repeat scroll 0 0; bottom: 0; padding:5px 0; left: 0; position: absolute; width: 102px; z-index: 5; line-height: 21px; text-align: center;}
+.photos_area .operate i{cursor: pointer; display: inline-block; font-size: 0; height: 12px; line-height: 0; margin: 0 5px; overflow: hidden; width: 12px; background: url("../images/icon_sucaihuo.png") no-repeat scroll 0 0;}
+.photos_area .operate .toright{background-position: -13px -13px; position: relative;top:1px;}
+.photos_area .operate .toleft{background-position: 0 -13px; position: relative;top:1px;}
+.photos_area .operate .del{background-position: -13px 0; position: relative;top:0px;}
+.photos_area .preview{background-color: #fff; font-family: arial; line-height: 90px; text-align: center; z-index: 4; left: 0; position: absolute; top: 0; height: 90px; overflow: hidden; width: 90px;}
+#logo_upload_btn{
+    background-color: #e60012;
+}
+.upimg-list{
+    padding-top:40px;
+}
+.tijiao{
+    position: absolute;top:10px;right:30px;
+}
+.tijiao button{
+    background-color:#e60012;
+}

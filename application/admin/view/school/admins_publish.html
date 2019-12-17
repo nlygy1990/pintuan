@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>编辑学校管理员</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body class="form-wrap" >
+  <div class="x-nav">
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+      <i class="layui-icon" style="line-height:38px;font-size:12px">ဂ刷新</i>
+    </a>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="{:url('admin/school/guanliyuan',['school_id'=>$school_id])}" title="返回">
+      <i class="fa fa-reply"></i>返回
+    </a>
+  </div>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 15px;">
+        <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+          <div class="layui-form-item">
+            <input type="hidden" name="school_id" value="{$school_id}">
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>管理员昵称</label>
+            <div class="layui-input-block">
+              {notempty name="one.id"}<input type="hidden" name="id" value="{$one.id}">{/notempty}
+              <input type="text" name="nickname" required  lay-verify="required" placeholder="请输入学校管理员昵称" autocomplete="off" class="layui-input" {notempty name="one.nickname"}value="{$one.nickname}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>账号</label>
+            <div class="layui-input-block">
+              <input type="text" name="username" required  lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input" {notempty name="one.username"}value="{$one.username}" readonly="readonly" {/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+              <input type="password" name="password" class="layui-input" {notempty name="one.password"}value="" placeholder="请输入密码，店铺管理员登录后台使用，修改将导致店铺管理员无法登录，请慎重；不填或留空则表示不修改" {else /}placeholder="请输入密码，店铺管理员登录后台使用，不填或留空则默认为88888888"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>手机号码</label>
+            <div class="layui-input-block">
+              <input type="text" name="phone" required  lay-verify="required" placeholder="请输入手机号码" autocomplete="off" class="layui-input" {notempty name="one.phone"}value="{$one.phone}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item" {notempty name="one.school_type"}{eq name="one.school_type" value="1"}style="display:none;"{/eq}{/notempty}>
+            <label class="layui-form-label"><span class="x-red">*</span>管理班级</label>
+            <div class="layui-input-block">
+              <select name="" lay-filter="myselect" id="class" lay-search>
+                <option value="">请选择管理的班级，为空或为0则表示管理全部班级</option>
+                {foreach name="class" item="v"}
+                  <option value="{$v.id}-{$v.title}">{$v.title}</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          {notempty name="one.class_id"}
+            <div class="layui-form-item" {notempty name="one.school_type"}{eq name="one.school_type" value="1"}style="display:none;"{/eq}{/notempty}>
+              <label class="layui-form-label"></label>
+              <div class="layui-input-block" id="banji">
+                {foreach name="class" item="v"}
+                  {if in_array($v.id,$one.class_id)}
+                    <div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;position:relative;">
+                      <input type="hidden" name="class_id[]" value="{$v.id}"> {$v.title}
+                      <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a>
+                    </div>
+                  {/if}
+                {/foreach}
+              </div>
+            </div>
+          {else /}
+            <div class="layui-form-item" {notempty name="one.school_type"}{eq name="one.school_type" value="1"}style="display:none;"{/eq}{/notempty}>
+              <label class="layui-form-label"></label>
+              <div class="layui-input-block" id="banji"></div>
+            </div>
+          {/notempty}
+          <div class="layui-form-item">
+            <label class="layui-form-label">开启/关闭</label>
+            <div class="layui-input-block">
+              <input type="checkbox" {notempty name="one.is_show"}{eq name="one.is_show" value="y"}checked="checked"{/eq}{else /}checked="checked"{/notempty} name="is_show" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="开启|关闭" value="y">
+            </div>
+          </div>
+          <div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  layui.use(['form','layer','upload','laydate'], function(){
+    $ = layui.jquery;
+    var form = layui.form,layer = layui.layer,upload = layui.upload,laydate = layui.laydate;
+    //监听提交
+    form.on('submit(froma)',function(e){
+      $.ajax({
+        url:"{:url('admin/school/admins_publish')}",
+        data:$('#froma').serialize(),
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            layer.msg(res.msg,{icon:1,time:2000});
+            setTimeout(function(){
+              window.history.go(-1);
+            },2000);
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+      return false;
+    });
+    form.on('select(myselect)', function(data){
+      var vv = data.value;
+      var arr = vv.split('-');
+      if(arr[0] && arr[1]){
+        var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                <input type="hidden" name="class_id[]" value="'+arr[0]+'"> '+arr[1]+' \
+                <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+              </div>';
+      }else{
+        var htm = "";
+      }
+      var bjl = $('#banji').find('input').length;
+      var a = true;
+      for(var i=0; i<bjl; i++){
+        var ia = $('#banji').find('input').eq(i).val();
+        if(ia==arr[0]){
+          a = false;
+        }
+      }
+      if(a==true){
+        $('#banji').append(htm);
+      }
+    })
+  })
+</script>
+</html>

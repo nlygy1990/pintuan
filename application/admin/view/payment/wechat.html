@@ -1,0 +1,63 @@
+<div class="layui-form-item">
+	<label class="layui-form-label">开启/关闭</label>
+	<div class="layui-input-block">
+		<input type="checkbox" {notempty name="wechat.is_show"}{eq name="wechat.is_show" value="y"}checked="checked"{/eq}{/notempty} name="wechat[is_show]" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="开启|关闭" value="y">
+	</div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>公众号(Appid)</label>
+    <div class="layui-input-block">
+        <input type="text" name="wechat[appid]" placeholder="请输入公众号Appid" class="layui-input" {notempty name="wechat.appid"}value="{$wechat.appid}"{/notempty}>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>支付商户号(Mch_Id)</label>
+    <div class="layui-input-block">
+        <input type="text" name="wechat[mch_id]" placeholder="请输入支付商户号mch_id" class="layui-input" {notempty name="wechat.mch_id"}value="{$wechat.mch_id}"{/notempty}>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>支付密钥(APIKEY)</label>
+    <div class="layui-input-block">
+        <input type="text" name="wechat[apikey]" placeholder="请输入支付密钥apikey" class="layui-input" {notempty name="wechat.apikey"}value="{$wechat.apikey}"{/notempty}>
+    </div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">CERT证书<br/>文件</label>
+	<div class="layui-input-block">
+		<div class="layui-upload">
+			<button type="button" class="layui-btn" id="test1" style="width:182px;">上传文件</button>
+			<input type="hidden" name="wechat[cert]" value="{notempty name='wechat.cert'}{$wechat.cert}{/notempty}" id="head_img">
+			<div class="layui-upload-list">
+				<img class="layui-upload-img" id="demo1">
+				<p id="demoText"></p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">KEY密钥<br/>文件</label>
+	<div class="layui-input-block">
+		<div class="layui-upload">
+			<button type="button" class="layui-btn" id="test2" style="width:182px;">上传文件</button>
+			<input type="hidden" name="wechat[key_f]" value="{notempty name='wechat.key_f'}{$wechat.key_f}{/notempty}" id="head_imga">
+			<div class="layui-upload-list">
+				<img class="layui-upload-img" id="demo2">
+				<p id="demoTexta"></p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">ROOT文件</label>
+	<div class="layui-input-block">
+		<div class="layui-upload">
+			<button type="button" class="layui-btn" id="test3" style="width:182px;">上传文件</button>
+			<input type="hidden" name="wechat[root_f]" value="{notempty name='wechat.root_f'}{$wechat.root_f}{/notempty}" id="head_imgb">
+			<div class="layui-upload-list">
+				<img class="layui-upload-img" id="demo3">
+				<p id="demoTextb"></p>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>门店列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="javascript:void(0);">首页</a>
+        <a href="javascript:void(0);">门店管理</a>
+        <a><cite>门店订单</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i>
+      </a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so layui-form-pane" id="search">
+          {if ($admininfo.stores_id=="0") AND ($admininfo.shop_id=="0") AND ($admininfo.school_id=="0") AND ($admininfo.hospital_id=="0")}
+            <label class="layui-form-label">所在地</label>
+            <div class="layui-inline">
+              <select lay-search name="sheng" lay-filter="myselect" id="sheng">
+                <option value="">全部省</option>
+                {foreach name="sheng" item="v"}
+                  <option value="{$v.region_id}" {notempty name="sheng_id"}{eq name="sheng_id" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                {/foreach}
+              </select>
+            </div>
+            <div class="layui-inline">
+              <select lay-search name="shi" lay-filter="myselect2" id="City">
+                <option value="">全部市</option>
+                {notempty name="shi"}
+                  {foreach name="shi" item="v"}
+                    <option value="{$v.region_id}" {notempty name="shi_id"}{eq name="shi_id" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                  {/foreach}
+                {/notempty}
+              </select>
+            </div>
+            <div class="layui-inline">
+              <select lay-search name="qu" lay-filter="myselect3" id="qu">
+                <option value="">全部区县</option>
+                {notempty name="qu"}
+                  {foreach name="qu" item="v"}
+                    <option value="{$v.region_id}" {notempty name="qu_id"}{eq name="qu_id" value="$v.region_id"}selected="selected"{/eq}{/notempty}>{$v.region_name}</option>
+                  {/foreach}
+                {/notempty}
+              </select>
+            </div>
+            <div class="layui-inline">
+              <select lay-search name="stores_id" lay-filter="myselect4" id="stores_id">
+                <option value="">全部门店</option>
+                {foreach name="stores" item="v"}
+                  <option value="{$v.id}" {notempty name="stores_id"}{eq name="stores_id" value="$v.id"}selected="selected"{/eq}{/notempty}>{$v.title}</option>
+                {/foreach}
+              </select>
+            </div>
+          {/if}
+          <input type="text" name="keys"  placeholder="请输入关键字" autocomplete="off" class="layui-input" style="width:300px" value="{$Request.get.keys}">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+      </div>
+      <table class="layui-table layui-form">
+        <thead>
+          <tr>
+            <th width="120">订单号</th>
+            {if ($admininfo.stores_id=="0") AND ($admininfo.shop_id=="0") AND ($admininfo.school_id=="0") AND ($admininfo.hospital_id=="0")}
+              <th width="200">门店</th>
+            {/if}
+            <th>商品</th>
+            <th width="200">买家</th>
+            <th width="150">价格</th>
+            <th width="150">状态</th>
+            <th width="110">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foreach name="list" key="k" item="v"}
+            <tr>
+              <td>{$v.no}</td>
+              {if ($admininfo.stores_id=="0") AND ($admininfo.shop_id=="0") AND ($admininfo.school_id=="0") AND ($admininfo.hospital_id=="0")}
+                <td>{$v.stores_id|getStores}</td>
+              {/if}
+              {php}$goods = json_decode($v['goods'],1);{/php}
+              <td>
+                <div style="float:left;width:20%;border:1px solid #ccc;text-align: center;">
+                  <img src="{$goods.thumb|getImage}" alt="" style="width:100%;">
+                </div>
+                <div style="float:left;width:50%;">
+                  <p style="padding:0 20px;width:100%;font-size:16px;font-weight:600;overflow: hidden;text-overflow:ellipsis;white-space:nowrap;">{$goods.title}</p>
+                  <p style="padding:10px 20px;width:100%;">{$goods.description}</p>
+                </div>
+                <div style="float:left;width:28%;">
+                  <p style="padding:0 20px;width:100%;text-align: center;">￥{$goods.marketprice}</p>
+                  <p style="padding:10px 20px;width:100%;text-align: center;">{if $goods.times=="0"}不限时{else /}{$goods.times}分钟{/if}</p>
+                </div>
+                <div style="clear:both;height:10px;"></div>
+              </td>
+              <td style="text-align: center;">{$v.user_id|getMember}</td>
+              <td>
+                应付金额：￥{$v.price}<br/>
+                实付金额：￥{$v.realprice}
+                <p style="text-align: center;padding-top:15px;">
+                  {if $v.pay_type=='alipay'} <img src="{:statics('img')}alipay.png" alt="" style="height:20px">支付宝支付{/if}
+                  {if $v.pay_type=='wxpay'}  <img src="{:statics('img')}wxpay.png" alt="" style="height:20px">微信支付{/if}
+                  {if $v.pay_type=='yuepay'} <img src="{:statics('img')}yuepay.png" alt="" style="height:20px">余额支付{/if}
+                </p>
+              </td>
+              <td style="text-align: center;">
+                {if $v.status=="0"} <span style="color:#23a5f0;">待处理</span>{/if}
+                {if $v.status=="1"} <span style="color:green;">已完成</span>{/if}
+                {if $v.status=="2"} <span style="color:green;">已退款</span>{/if}
+              </td>
+              <td style="text-align: center;">
+                <a href="{:url('admin/stores/dingdan_detail',['id'=>$v.id])}"><p style="color:#23a5f0">查看详情</p></a>
+                {if $v.status=="0"}
+                  <a href="javascript:void(0);" onclick="x_admin_show('门店订单处理','{:url('admin/stores/dingdan_publish',['id'=>$v.id])}',600,400)"><p style="color:#23a5f0;padding-top:10px;">立即处理</p></a>
+                {/if}
+              </td>
+            </tr>
+          {/foreach}
+        </tbody>
+      </table>
+      <div id="page" {eq name="count" value="0"}style="display:none;"{/eq}>
+        {$list|raw}
+      </div>
+      {eq name="count" value="0"}
+        <p style="text-align:center;line-height:80px;color:red;font-size:16px;">暂时没有相关订单</p>
+      {/eq}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<div class="layui-form-item">
+	<label class="layui-form-label">分销</label>
+	<div class="layui-input-block">
+		<input type="checkbox" {notempty name="one.isdistribution"}{eq name="one.isdistribution" value="1"}checked="checked"{/eq}{else /}checked="checked"{/notempty} name="isdistribution" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="ON|Off" value="1">
+	</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">一级分销</label>
+	<div class="layui-input-inline">
+		<input type="text" name="distribution" class="layui-input" {notempty name="one.distribution"}value="{$one.distribution}"{else /}value="{$fenxiao.distribution}"{/notempty}>
+	</div>
+	<div class="layui-form-mid layui-word-aux"> 元</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">二级分销</label>
+	<div class="layui-input-inline">
+		<input type="text" name="distribution_2" class="layui-input" {notempty name="one.distribution_2"}value="{$one.distribution_2}"{else /}value="{$fenxiao.distribution_2}"{/notempty}>
+	</div>
+	<div class="layui-form-mid layui-word-aux"> 元</div>
+</div>
+<div class="layui-form-item" style="margin-bottom:0px;">
+	<label class="layui-form-label">三级分销</label>
+	<div class="layui-input-inline">
+		<input type="text" name="distribution_3" class="layui-input" {notempty name="one.distribution_3"}value="{$one.distribution_3}"{else /}value="{$fenxiao.distribution_3}"{/notempty}>
+	</div>
+	<div class="layui-form-mid layui-word-aux"> 元</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">&nbsp;</label>
+	<div class="layui-form-mid layui-word-aux">
+		商品分销方式: 1: 固定分销 2：比例分销 （如果不填写或填写0，则默认为没有分销比例）如果如果带%则为按成交价格的比例计算返现 <br/>
+		固定分销:填写整数而不用填写% （比如：购买2件，设置10 元, 不管成交价格是多少， 则购买后获得20元返现）<br/>
+		比例分销:在整数后面加上% （比如: 购买2件，设置10%元, 成交价格2 * 200= 400， 则购买后获得 40 元返现（400*10%））
+	</div>
+</div>

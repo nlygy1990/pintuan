@@ -1,0 +1,77 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+html body {
+  background-size: cover;
+}
+html body .forma {
+  width: 428px;
+  height: 470px;
+  background: url('../images/login_bga.png') repeat;
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -214px;
+  margin-left: -235px;
+}
+html body .forma .title {
+  font-size: 28px;
+  text-align: center;
+  font-family: '微软雅黑';
+  line-height: 95px;
+  color: #313131;
+}
+html body .forma .content {
+  padding: 0 55px;
+}
+html body .forma .content .lists {
+  padding-top: 20px;
+}
+html body .forma .content .lists .icon {
+  width: 17px;
+  height: 40px;
+}
+html body .forma .content .lists .icon .phone {
+  margin-top: 12.5px;width:100%;
+}
+html body .forma .content .lists .icon .pwd {
+  margin-top: 12px;width:100%;
+}
+html body .forma .content .lists .icon .code {
+  margin-top: 10px;width:100%;
+}
+html body .forma .content .lists .input {
+  width: 285px;
+}
+html body .forma .content .lists .input input {
+  width: 285px;
+  height: 40px;
+  border: 1px solid #dfdfe0;
+  border-radius: 40px;
+  padding: 0px 20px;
+  font-size: 14px;
+  color: #666666;
+  letter-spacing: 1px;
+}
+html body .forma .content .lists .input .yz_code {
+  width: 200px;
+}
+html body .forma .content .lists .input img {
+  cursor: pointer;
+  height: 40px;
+  width: 77px;
+}
+html body .forma .content .lists .layui-form-checked[lay-skin=primary] i {
+  border-color: #03b0eb;
+  background-color: #03b0eb;
+  color: #fff;
+}
+html body .forma .content .lists .layui-btn {
+  width: 100%;
+  height: 40px;
+  background: #03b0eb;
+  border-radius: 10px;
+  margin-top: 30px;
+}

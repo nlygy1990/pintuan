@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新增屈光度记录</title>
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<div class="layui-card">
+      	<div class="layui-card-body" style="padding: 15px;">
+			<form class="layui-form" id="forma" method="POST"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+				<div class="layui-form-item">
+		            <label class="layui-form-label">最小值</label>
+		            <div class="layui-input-block">
+		              	{notempty name="one.id"}<input type="hidden" name="id" value="{$one.id}">{/notempty}
+		              	<input type="text" name="min_num" required  lay-verify="required" placeholder="请输入最小值" autocomplete="off" class="layui-input" {notempty name="one.min_num"}value="{$one.min_num}"{else /}value="0"{/notempty}>
+		            </div>
+		        </div>
+		        <div class="layui-form-item">
+		            <label class="layui-form-label">最大值</label>
+		            <div class="layui-input-block">
+		              	<input type="text" name="max_num" required  lay-verify="required" placeholder="请输入最大值" autocomplete="off" class="layui-input" {notempty name="one.max_num"}value="{$one.max_num}"{else /}value="0"{/notempty}>
+		            </div>
+		        </div>
+		        <div class="layui-form-item">
+		            <label class="layui-form-label">年龄</label>
+		            <div class="layui-input-block">
+		              	<select name="age" id="">
+		              		{for start="1" end="101"}
+		              			<option value="{$i}" {notempty name="one.age"}{eq name="one.age" value="$i"}selected{/eq}{/notempty}>{$i}岁</option>
+		              		{/for}
+		              	</select>
+		            </div>
+		        </div>
+		        <div class="layui-form-item">
+		            <label class="layui-form-label">分析结果</label>
+		            <div class="layui-input-block">
+		              	<select name="jieguo" id="">
+		              		<option value="高危" {notempty name="one.jieguo"}{eq name="one.jieguo" value="高危"}selected{/eq}{/notempty}>高危</option>
+		              		<option value="中危" {notempty name="one.jieguo"}{eq name="one.jieguo" value="中危"}selected{/eq}{/notempty}>中危</option>
+		              		<option value="低危" {notempty name="one.jieguo"}{eq name="one.jieguo" value="低危"}selected{/eq}{/notempty}>低危</option>
+		              	</select>
+		            </div>
+		        </div>
+		  		<div class="layui-form-item layui-layout-admin">
+		            <div class="layui-input-block">
+		              <div class="layui-footer" style="left: 0;">
+		                <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+		                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		              </div>
+		            </div>
+		        </div>
+			</form>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	layui.use(['element','form','layer'], function(){
+	  	var element = layui.element,
+	  		layer = layui.layer,
+	  	  	form = layui.form;
+	  	form.on('submit(froma)', function(data){
+ 			layer.msg('正在提交', {
+  				icon: 16,
+  				shade: 0.3
+			});
+			$.ajax({
+ 				url:"{:url('admin/vision/quguangdu_publish')}",
+ 				data:$('#forma').serialize(),
+ 				type:'POST',
+ 				dataType:'json',
+ 				success:function(res){
+ 					layer.closeAll('loading');
+ 					if(res.code=='0'){
+ 						layer.msg(res.msg, {icon: 1});
+ 						setTimeout(function(){
+  							parent.layer.close(parent.layer.getFrameIndex(window.name));
+  							parent.location.reload();
+						}, 2000);
+ 					}else{
+ 						layer.msg(res.msg, {icon: 2});
+ 					}
+ 				},
+ 				error:function(res){
+ 					layer.closeAll('loading');
+ 					layer.msg('网络连接错误', {icon: 5});
+ 				}
+ 			})
+ 			return false;
+ 		})
+	});
+</script>
+</html>

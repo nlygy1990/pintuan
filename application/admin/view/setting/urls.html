@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>URL美化</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="javascript:void(0);">首页</a>
+        <a href="javascript:void(0);">后台设置</a>
+        <a><cite>URL美化</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i>
+      </a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so layui-form-pane">
+          <a class="layui-btn" onclick="x_admin_show('添加','{:url('admin/setting/urls_publish')}','',400)"  lay-submit="" lay-filter="sreach"><i class="layui-icon"></i>增加</a>
+        </form>
+      </div>
+      <blockquote class="layui-elem-quote">温馨提示：此处可以美化网站url,例如：域名/admin/index/index.html可以美化成: 域名/index.html</blockquote>
+      <table class="layui-table layui-form">
+        <thead>
+          <tr>
+            <th width="20">
+              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+            </th>
+            <th width="70">编号</th>
+            <th width="200">美化前</th>
+            <th width="200">美化后</th>
+            <th>备注</th>
+            <th width="150">创建时间</th>
+            <th width="50">状态</th>
+            <th width="140">操作</th>
+          </tr>
+        </thead>
+        <tbody class="x-cate">
+          {foreach name="list" item="v" key="k"}
+            <tr cate-id='{$v.id}' fid='0'>
+              <td>
+                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{$v.id}'><i class="layui-icon">&#xe605;</i></div>
+              </td>
+              <td>{$v.id}</td>
+              <td>{$v.url}</td>
+              <td>{$v.aliases}</td>
+              <td>{$v.desc}</td>
+              <td>{$v.addtime|date="Y.m.d H:i:s"}</td>
+              <td class="yc">
+                <input type="checkbox" name="switch"  lay-text="启用|关闭" class="hide-show" data-id="{$v.id}" data-st="{$v.status}" {eq name="v.status" value="1"}checked=""{/eq} lay-skin="switch">
+              </td>
+              <td>
+                <button class="layui-btn layui-btn layui-btn-xs"  onclick="x_admin_show('编辑','{:url('admin/setting/urls_publish',['id'=>$v.id])}','',400)" ><i class="layui-icon">&#xe642;</i>编辑</button>
+                <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'{$v.id}')" href="javascript:void(0);" ><i class="layui-icon">&#xe640;</i>删除</button>
+              </td>
+            </tr>
+          {/foreach}
+        </tbody>
+      </table>
+      <xblock>
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <span class="x-right" style="line-height:40px">共有数据：{$list|count} 条</span>
+      </xblock>
+    </div>
+  </body>
+  <script type="text/javascript">
+    layui.use(['form'], function(){
+      form = layui.form;
+    });
+    /*删除*/
+    function member_del(obj,id){
+      layer.confirm('确认要删除该URL美化吗？',function(index){
+        //发异步删除数据
+        $.ajax({
+          url:"{:url('admin/setting/urls_del')}",
+          data:{id:id},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+      });
+    }
+    $(document).on('click','.yc .layui-unselect',function(){
+      var id = $(this).siblings('input').attr('data-id');
+      var va = $(this).siblings('input').attr('data-st');
+      var that = this;
+      $.ajax({
+        url:"{:url('admin/setting/urls_show')}",
+        data:{id:id,va:va},
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code=='0'){
+            layer.msg(res.msg,{icon:1,time:2000});
+            $(that).siblings('input').attr('data-st',res.va);
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+    })
+    function delAll (argument) {
+      var data = tableCheck.getData();
+      layer.confirm('确认要删除吗？',function(index){
+        //捉到所有被选中的，发异步进行删除
+        $.ajax({
+          url:"{:url('admin/setting/urls_del')}",
+          data:{id:data},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+      });
+    }
+  </script>
+</html>

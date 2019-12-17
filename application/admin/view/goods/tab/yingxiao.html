@@ -1,0 +1,30 @@
+<div class="layui-form-item" style="margin-bottom:0px;">
+	<label class="layui-form-label">积分赠送</label>
+	<div class="layui-input-inline">
+		<input type="text" name="fan_jifen" class="layui-input" {notempty name="one.fan_jifen"}value="{$one.fan_jifen}"{/notempty}>
+	</div>
+	<div class="layui-form-mid layui-word-aux"> 积分</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">&nbsp;</label>
+	<div class="layui-form-mid layui-word-aux">
+		会员购物赠送的积分, 如果不填写或填写0，则默认为不赠送积分，如果带%则为按成交价格的比例计算积分 <br/>
+		如: 购买2件，设置10 积分, 不管成交价格是多少， 则购买后获得20积分）<br/>
+		如: 购买2件，设置10%积分, 成交价格2 * 200= 400， 则购买后获得 40 积分（400*10%））
+	</div>
+</div>
+<div class="layui-form-item" style="margin-bottom:0px;">
+	<label class="layui-form-label">余额返现</label>
+	<div class="layui-input-inline">
+		<input type="text" name="fan_yue" class="layui-input" {notempty name="one.fan_yue"}value="{$one.fan_yue}"{/notempty}>
+	</div>
+	<div class="layui-form-mid layui-word-aux"> 元</div>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">&nbsp;</label>
+	<div class="layui-form-mid layui-word-aux">
+		会员购物返现, 如果不填写或填写0，则默认为不返现，如果带%则为按成交价格的比例计算返现 <br/>
+		如: 购买2件，设置10 元, 不管成交价格是多少， 则购买后获得20元返现<br/>
+		如: 购买2件，设置10%元, 成交价格2 * 200= 400， 则购买后获得 40 元返现（400*10%）
+	</div>
+</div>

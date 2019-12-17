@@ -1,0 +1,43 @@
+<div class="layui-form-item">
+	<label class="layui-form-label">开启/关闭</label>
+	<div class="layui-input-block">
+		<input type="checkbox" {notempty name="alipay.is_show"}{eq name="alipay.is_show" value="y"}checked="checked"{/eq}{/notempty} name="alipay[is_show]" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="开启|关闭" value="y">
+	</div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>支付宝账号</label>
+    <div class="layui-input-block">
+        <input type="text" name="alipay[uname]" placeholder="请输入支付宝账号，通常为邮箱地址" class="layui-input" {notempty name="alipay.uname"}value="{$alipay.uname}"{/notempty}>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>Appid</label>
+    <div class="layui-input-block">
+        <input type="text" name="alipay[appid]" placeholder="请输入Appid" class="layui-input" {notempty name="alipay.appid"}value="{$alipay.appid}"{/notempty}>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>验签方式</label>
+    <div class="layui-input-block">
+    	<input type="radio" name="alipay[rsa_type]" lay-skin="primary" title="RSA" value="RSA" {notempty name="alipay.rsa_type"}{eq name="alipay.rsa_type" value="RSA"}checked="checked"{/eq}{else /}checked="checked"{/notempty}>
+        <input type="radio" name="alipay[rsa_type]" lay-skin="primary" title="RSA2" value="RSA2" {notempty name="alipay.rsa_type"}{eq name="alipay.rsa_type" value="RSA2"}checked="checked"{/eq}{/notempty}>
+    </div>
+</div>
+<div class="layui-form-item" style="margin-top: -20px">
+	<label class="layui-form-label">&nbsp;</label>
+	<div class="layui-form-mid layui-word-aux">
+		请选择正确的验证签名方式，否则支付宝支付不起作用<span class="x-red">(建议使用RSA2)</span>
+	</div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>支付宝公钥(PUBLIC_KEY)</label>
+    <div class="layui-input-block">
+    	<textarea name="alipay[public_key]" placeholder="请输入支付宝公钥(PUBLIC_KEY),一行且不能有空格" class="layui-textarea">{notempty name="alipay.public_key"}{$alipay.public_key}{/notempty}</textarea>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>应用私钥(PRIVATE_KEY)</label>
+    <div class="layui-input-block">
+    	<textarea name="alipay[private_key]" placeholder="请输入应用私钥(PRIVATE_KEY),一行且不能有空格" class="layui-textarea">{notempty name="alipay.private_key"}{$alipay.private_key}{/notempty}</textarea>
+    </div>
+</div>

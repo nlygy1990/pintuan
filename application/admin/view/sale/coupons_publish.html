@@ -1,0 +1,360 @@
+<?php /*a:1:{s:82:"G:\phpstudy_pro\WWW\www.nlygy.com\application\admin\view\sale\coupons_publish.html";i:1571733148;}*/ ?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>编辑文章</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body class="form-wrap" >
+  <div class="x-nav">
+    <span class="layui-breadcrumb">
+      <a href="javascript:void(0);">首页</a>
+      <a href="javascript:void(0);">营销管理</a>
+      <a href="javascript:void(0);">优惠券</a>
+      <a><cite>编辑优惠券</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+      <i class="layui-icon" style="line-height:38px;font-size:12px">ဂ刷新</i>
+    </a>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:history.go(-1);" title="返回">
+      <i class="fa fa-reply"></i>返回
+    </a>
+  </div>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 15px;">
+        <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>标题</label>
+            <div class="layui-input-block">
+              {notempty name="one.id"}
+                <input type="hidden" value="{$one.id}" name="id">
+              {/notempty}
+              <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" {notempty name="one.title"}value="{$one.title}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-block">
+              <input type="text" name="description" placeholder="请输入描述" class="layui-input" {notempty name="one.description"}value="{$one.description}"{/notempty}>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label"><span class="x-red">*</span>封面</label>
+            <div class="layui-input-block">
+              <div class="left" style="cursor:pointer;" id="fenming">
+                <img src="{notempty name="one.thumb"}{$one.thumb|getImage}{/notempty}" alt="" onerror="this.src='{:statics('img')}add_fm.png'" id="fmimg" style="width:192px;height:128px;"><br/>
+                <button type="button" class="layui-btn" style="width:192px;">上传封面</button>
+                <input type="hidden" name="thumb" {notempty name="one.thumb"}value="{$one.thumb}"{/notempty}  id="img">
+              </div>
+              <div class="left" style="padding-left:20px;">
+                <p style="text-align: center;">上传图片大小不能超过100kb，比例3：2</p>
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item" style="margin-bottom: 0">
+            <div class="layui-inline">
+              <label class="layui-form-label">订单满</label>
+              <div class="layui-input-inline">
+                <input type="text" name="man" class="layui-input guigejz" {notempty name="one.man"}value="{$one.man}"{/notempty}>
+              </div>
+              <div class="layui-form-mid layui-word-aux"> 元 可用</div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">&nbsp;</label>
+            <div class="layui-form-mid layui-word-aux">
+              消费满多少可用, 空或0 不限制
+            </div>
+          </div>
+          <div class="layui-form-item" style="margin-bottom: 0">
+            <div class="layui-inline">
+              <label class="layui-form-label"><span class="x-red">*</span>优惠金额</label>
+              <div class="layui-input-inline">
+                <input type="text" name="jian" class="layui-input guigejz" {notempty name="one.jian"}value="{$one.jian}"{/notempty}>
+              </div>
+              <div class="layui-form-mid layui-word-aux"> 元 </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-input-block layui-form-mid layui-word-aux">
+              优惠方式: 1: 固定金额 2：比例折扣 （如果不填写或填写0，则默认为没有优惠）如果如果带%则为按订单商品金额的比例计算优惠金额 <br/>
+              固定金额: 填写整数而不用填写% （比如：设置20 元,则符合使用条件后购买可获得20元优惠，立减20元）<br/>
+              比例分销：在整数后面加上% （比如: 订单商品金额400元，设置10%元， 符合使用条件后购买可获得40元优惠（400*10%），立减40元）
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">商品权限</label>
+            <div class="layui-input-block">
+              <select name="" lay-filter="usergroupbuy" id="usergroupbuy" lay-search>
+                <option value="">不设置默认全部商品可用</option>
+                {foreach name="goods" item="v"}
+                  <option value="{$v.id}-{$v.title}">{$v.title}</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          {notempty name="one.goodsid"}
+            <div class="layui-form-item">
+              <label class="layui-form-label"></label>
+              <div class="layui-input-block" id="huiyuanm">
+                {foreach name="goods" item="v"}
+                  {if in_array($v.id,$one.goodsid)}
+                    <div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;position:relative;">
+                      <input type="hidden" name="goodsid[]" value="{$v.id}"> {$v.title}
+                      <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a>
+                    </div>
+                  {/if}
+                {/if}
+              </div>
+            </div>
+          {else /}
+            <div class="layui-form-item">
+              <label class="layui-form-label"></label>
+              <div class="layui-input-block" id="huiyuanm"></div>
+            </div>
+          {/notempty}
+          <div class="layui-form-item">
+            <label class="layui-form-label">会员组权限</label>
+            <div class="layui-input-block">
+              <select name="" lay-filter="usergroupbuya" id="usergroupbuya" lay-search>
+                <option value="">不设置默认全部会员组可领取</option>
+                {foreach name="level" item="v"}
+                  <option value="{$v.id}-{$v.title}">{$v.title}</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          {notempty name="one.level"}
+            <div class="layui-form-item">
+              <label class="layui-form-label"></label>
+              <div class="layui-input-block" id="huiyuanl">
+                {foreach name="level" item="v"}
+                  {if in_array($v.id,$one.level)}
+                    <div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;position:relative;">
+                      <input type="hidden" name="level[]" value="{$v.id}"> {$v.title}
+                      <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a>
+                    </div>
+                  {/if}
+                {/if}
+              </div>
+            </div>
+          {else /}
+            <div class="layui-form-item">
+              <label class="layui-form-label"></label>
+              <div class="layui-input-block" id="huiyuanl"></div>
+            </div>
+          {/notempty}
+          <div class="layui-form-item">
+            <label class="layui-form-label">会员权限</label>
+            <div class="layui-input-block">
+              <select name="" lay-filter="usergroupbuyb" id="usergroupbuyb" lay-search>
+                <option value="">不设置默认全部会员可领取</option>
+                {foreach name="users" item="v"}
+                  <option value="{$v.id}-{$v.nickname}({$v.username})">{$v.nickname}({$v.username})</option>
+                {/foreach}
+              </select>
+            </div>
+          </div>
+          {notempty name="one.user"}
+            <div class="layui-form-item">
+              <label class="layui-form-label"></label>
+              <div class="layui-input-block" id="huiyuanu">
+                {foreach name="user" item="v"}
+                  {if in_array($v.id,$one.user)}
+                    <div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;position:relative;">
+                      <input type="hidden" name="user[]" value="{$v.id}"> {$v.title}
+                      <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a>
+                    </div>
+                  {/if}
+                {/if}
+              </div>
+            </div>
+          {else /}
+            <div class="layui-form-item">
+              <label class="layui-form-label"></label>
+              <div class="layui-input-block" id="huiyuanu"></div>
+            </div>
+          {/notempty}
+          <div class="layui-form-item">
+            <label class="layui-form-label">开始时间</label>
+            <div class="layui-input-block">
+              <input type="text" name="starttime" id="riqi" {notempty name="one.starttime"}value="{$one.starttime|date='Y-m-d H:i:s'}"{/notempty} readonly="readonly" placeholder="请选择开始时间，不选则不限时间" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">结束时间</label>
+            <div class="layui-input-block">
+              <input type="text" name="endtime" id="riqia"{notempty name="one.endtime"}value="{$one.endtime|date='Y-m-d H:i:s'}"{/notempty} readonly="readonly" placeholder="请选择结束时间，不选则不限时间" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">发放数量</label>
+            <div class="layui-input-block">
+              <input type="text" name="total"{notempty name="one.total"}value="{$one.total}"{/notempty} placeholder="请填写发放数量，不填或填写-1，则默认为不限数量" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">显示/隐藏</label>
+            <div class="layui-input-block">
+              <input type="checkbox" {notempty name="one.is_show"}{if $one.is_show=='y'}checked{/if}{/notempty} name="is_show" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="显示|隐藏" value="y">
+            </div>
+          </div>
+          <div class="layui-form-item layui-layout-admin">
+            <div class="layui-input-block">
+              <div class="layui-footer" style="left: 0;">
+                <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  layui.use(['form','layer','upload','laydate'], function(){
+    $ = layui.jquery;
+    var form = layui.form,layer = layui.layer,upload = layui.upload,laydate = layui.laydate;
+    var uploadInst = upload.render({
+      elem: '#fenming',
+      url: '{:url('admin/base/upload')}?utitle=coupons&name=file',
+      done: function(res){
+        if(res.code == 0) {
+          $("#fmimg").attr("src",res.returnData.url);
+          $("#img").val(res.returnData.id);
+        }else {
+          layer.msg(res.msg);
+        }
+      },
+      error: function(){
+      }
+    });
+    form.on('select(usergroupbuy)', function(data){
+      var vv = data.value;
+      var arr = vv.split('-');
+      if(arr[0] && arr[1]){
+        var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                <input type="hidden" name="goodsid[]" value="'+arr[0]+'"> '+arr[1]+' \
+                <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+              </div>';
+      }else{
+        var htm = "";
+      }
+      var bjl = $('#huiyuanm').find('input').length;
+      var a = true;
+      for(var i=0; i<bjl; i++){
+        var ia = $('#huiyuanm').find('input').eq(i).val();
+        if(ia==arr[0]){
+          a = false;
+        }
+      }
+      if(a==true){
+        $('#huiyuanm').append(htm);
+      }
+    })
+    form.on('select(usergroupbuya)', function(data){
+      var vv = data.value;
+      var arr = vv.split('-');
+      if(arr[0] && arr[1]){
+        var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                <input type="hidden" name="level[]" value="'+arr[0]+'"> '+arr[1]+' \
+                <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+              </div>';
+      }else{
+        var htm = "";
+      }
+      var bjl = $('#huiyuanl').find('input').length;
+      var a = true;
+      for(var i=0; i<bjl; i++){
+        var ia = $('#huiyuanl').find('input').eq(i).val();
+        if(ia==arr[0]){
+          a = false;
+        }
+      }
+      if(a==true){
+        $('#huiyuanl').append(htm);
+      }
+    })
+    form.on('select(usergroupbuyb)', function(data){
+      var vv = data.value;
+      var arr = vv.split('-');
+      if(arr[0] && arr[1]){
+        var htm = '<div style="float:left;padding: 2px 15px;background:#f1f1f1;margin-right: 20px;margin-bottom:10px;position:relative;"> \
+                <input type="hidden" name="user[]" value="'+arr[0]+'"> '+arr[1]+' \
+                <a href="javascript:void(0);" style="position: absolute; right:0px;top:-10px;" onclick="$(this).parent().remove();">x</a> \
+              </div>';
+      }else{
+        var htm = "";
+      }
+      var bjl = $('#huiyuanu').find('input').length;
+      var a = true;
+      for(var i=0; i<bjl; i++){
+        var ia = $('#huiyuanu').find('input').eq(i).val();
+        if(ia==arr[0]){
+          a = false;
+        }
+      }
+      if(a==true){
+        $('#huiyuanu').append(htm);
+      }
+    })
+    laydate.render({ 
+        elem: '#riqi',
+        min: '2000-1-1',
+        type:'datetime',
+        max: '{:date('Y-m-d',time()+60*60*24*365*20)}',
+        done: function(value, date, endDate){
+          console.log(value);
+        }
+    });
+    laydate.render({ 
+        elem: '#riqia',
+        min: '2000-1-1',
+        type:'datetime',
+        max: '{:date('Y-m-d',time()+60*60*24*365*20)}',
+        done: function(value, date, endDate){
+          console.log(value);
+        }
+    });
+    //监听提交
+    form.on('submit(froma)',function(e){
+      $.ajax({
+        url:"{:url('admin/sale/coupons_publish')}",
+        data:$('#froma').serialize(),
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code==0){
+            layer.msg(res.msg,{icon:1,time:2000});
+            setTimeout(function(){
+              window.history.go(-1);
+            },2000);
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+      return false;
+    });
+  });
+</script>
+</html>

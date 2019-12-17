@@ -1,0 +1,85 @@
+<div class="layui-card-header">库存</div>
+<div class="layui-form-item">
+	<div class="layui-inline">
+		<label class="layui-form-label">编码</label>
+		<div class="layui-input-inline">
+			<input type="text" name="goodssn" class="layui-input guigejz" {notempty name="one.goodssn"}value="{$one.goodssn}"{/notempty} {notempty name="one.hasoption"}{eq name="one.hasoption" value="1"}readonly="readonly" style="background:#ccc"{/eq}{/notempty}>
+		</div>
+		<div class="layui-form-mid layui-word-aux"> </div>
+	</div>
+	<div class="layui-inline">
+		<label class="layui-form-label">条码</label>
+		<div class="layui-input-inline">
+			<input type="text" name="productsn" class="layui-input guigejz" {notempty name="one.productsn"}value="{$one.productsn}"{/notempty} {notempty name="one.hasoption"}{eq name="one.hasoption" value="1"}readonly="readonly" style="background:#ccc"{/eq}{/notempty}>
+		</div>
+		<div class="layui-form-mid layui-word-aux"> </div>
+	</div>
+</div>
+<div class="layui-form-item">
+	<div class="layui-inline">
+		<label class="layui-form-label">净重</label>
+		<div class="layui-input-inline">
+			<input type="text" name="j_weight" class="layui-input guigejz" {notempty name="one.j_weight"}value="{$one.j_weight}"{/notempty} {notempty name="one.hasoption"}{eq name="one.hasoption" value="1"}readonly="readonly" style="background:#ccc"{/eq}{/notempty}>
+		</div>
+		<div class="layui-form-mid layui-word-aux">g</div>
+	</div>
+	<div class="layui-inline">
+		<label class="layui-form-label">毛重</label>
+		<div class="layui-input-inline">
+			<input type="text" name="m_weight" class="layui-input guigejz" {notempty name="one.m_weight"}value="{$one.m_weight}"{/notempty} {notempty name="one.hasoption"}{eq name="one.hasoption" value="1"}readonly="readonly" style="background:#ccc"{/eq}{/notempty}>
+		</div>
+		<div class="layui-form-mid layui-word-aux">g</div>
+	</div>
+</div>
+<div class="layui-form-item">
+	<div class="layui-inline">
+		<label class="layui-form-label">库存</label>
+		<div class="layui-input-inline">
+			<input type="text" name="total" class="layui-input guigejz" {notempty name="one.total"}value="{$one.total}"{/notempty} {notempty name="one.hasoption"}{eq name="one.hasoption" value="1"}readonly="readonly" style="background:#ccc"{/eq}{/notempty}>
+		</div>
+	</div>
+	<div class="layui-inline">
+		<input type="checkbox" name="showtotal" lay-skin="primary" class="guigejz" title="显示库存" value="y" {notempty name="one.showtotal"}{eq name="one.showtotal" value="y"}checked="checked"{/eq}{else /}checked="checked"{/notempty} {notempty name="one.hasoption"}{eq name="one.hasoption" value="1"}readonly="readonly" style="background:#ccc"{/eq}{/notempty}>
+	</div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"></label>
+    <div class="layui-input-block">
+    	<input type="radio" name="totalcnf" value="0" title="下单立减库存" {notempty name="one.totalcnf"}{eq name="one.totalcnf" value="0"}checked="checked"{/eq}{else /}checked="checked"{/notempty}>
+    	<input type="radio" name="totalcnf" value="1" title="付款立减库存" {notempty name="one.totalcnf"}{eq name="one.totalcnf" value="1"}checked="checked"{/eq}{/notempty}>
+    	<input type="radio" name="totalcnf" value="2" title="永不立减库存" {notempty name="one.totalcnf"}{eq name="one.totalcnf" value="2"}checked="checked"{/eq}{/notempty}>
+    </div>
+</div>
+
+<div class="layui-card-header" id="qigg">规格 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="checkbox" name="hasoption" lay-skin="primary" title="启用商品规格" value="1" {notempty name="one.hasoption"}{eq name="one.hasoption" value="1"}checked="checked"{/eq}{/notempty}>
+</div>
+<div class="layui-form-item">
+	<label class="layui-form-label">&nbsp;</label>
+	<div class="layui-form-mid layui-word-aux">
+		如果启用规格，请添加完商品之后到列表页添加规格库存
+	</div>
+</div>
+<script type="text/javascript">
+	var xqqi = 0;
+	{notempty name="one.hasoption"}
+		{eq name="one.hasoption" value="1"}
+			var xqqi = 1;
+		{else /}
+			var xqqi = 0;
+		{/eq}
+	{else /}
+		var xqqi = 0;
+	{/notempty}  ///
+	$(document).on('click',"#qigg .layui-unselect",function(){
+		if(xqqi==0){
+			xqqi = 1;
+			$(".guigejz").prop('readonly',true);
+			$(".guigejz").css('background','#ccc');
+		}else{
+			xqqi = 0;
+			$(".guigejz").prop('readonly',false);
+			$(".guigejz").css('background','#fff');
+		}
+	});
+</script>

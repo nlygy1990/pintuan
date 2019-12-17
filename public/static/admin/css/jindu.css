@@ -1,0 +1,102 @@
+.clear{clear:both;}
+.jindu{
+  width:100%;padding:30px 0px;
+}
+.jindu .items{
+  float:left;width:25%;position:relative;
+}
+.jindu .items .itemsa{
+  width:50px;height:50px;border-radius:50px;background:#cccccc;text-align: center;line-height: 50px;color:#fff;margin:0 auto;position:relative;z-index: 99;
+}
+.jindu .items .title{
+  text-align: center;
+}
+.jindu .items .times{
+  color:#ccc;text-align: center;
+}
+.jindu .items .xianl{
+  width: 50%; position: absolute;height:4px; background:#ccc;left:0;top:23px;
+}
+.jindu .items .xianr{
+  width: 50%; position: absolute;height:4px; background:#ccc;right:0;top:23px;
+}
+
+.jindu .active{
+  float:left;width:25%;
+}
+.jindu .active .itemsa{
+  width:50px;height:50px;border-radius:50px;background:#23a5f0;text-align: center;line-height: 50px;color:#fff;margin:0 auto;position:relative;
+}
+.jindu .active .title{
+  text-align: center;
+}
+.jindu .active .times{
+  color:#ccc;text-align: center;
+}
+.jindu .active .xianl{
+  width: 50%; position: absolute;height:4px; background:#23a5f0;left:0;top:23px;
+}
+.jindu .active .xianr{
+  width: 50%; position: absolute;height:4px; background:#23a5f0;right:0;top:23px;
+}
+
+.orders{
+  width:47%;border:1px solid #f2f2f2;padding:1%;float:left;
+}
+.orders .lefts{
+  float:left;width:15%;color:#ccc;padding:7px 0;
+}
+.orders .rights{
+  float:left;width:85%;padding:7px 0;
+}
+.orders .buooms{
+  padding:7px 0; padding-left: 15%;
+}
+.orders .buooms a{
+  padding: 2px 20px;background: #23a5f0; color:#fff; border-radius:5px;
+}
+.zhuangtai{
+  width:47%;border:1px solid #f2f2f2;padding:1%;float:right;
+}
+.zhuangtai .lefts{
+  float:left;width:15%;color:#ccc;padding:7px 0;
+}
+.zhuangtai .rights{
+  float:left;width:85%;padding:7px 0;
+}
+.zhuangtai .leftsa{
+  float:left;width:15%;color:#ccc;padding:0px 0;
+}
+.zhuangtai .rightsa{
+  float:left;width:85%;padding:0px 0;
+}
+.zhuangtai .buttoms{
+  padding:7px 0px; padding-left: 15%;
+}
+.zhuangtai .buttoms span{
+  padding: 2px 0px;color: #23a5f0;margin-right:15px;cursor: pointer;
+}
+.zhuangtai .buttoms a{
+  padding: 2px 20px;background: #23a5f0; color:#fff; border-radius:5px;margin-right:15px;
+}
+.zhuangtai .tishi{
+  color:#ccc;padding-left: 15%;
+}
+.goods{
+  width:100%;border:1px solid #ccc;
+}
+.goods th{
+  height:40px;border-bottom:1px solid #ccc;color:#999;text-align: center;padding:0 15px;
+}
+.goods td{
+  text-align: center;padding:15px;border:1px solid #ccc;color:#666;
+}
+.goods td img{
+  float: left;width:20%;
+}
+.goods td div{
+  float: left;width:75%;text-align: left;padding-left:2%;
+}
+.goods .heji{
+  font-size: 16px;color:#000;
+}

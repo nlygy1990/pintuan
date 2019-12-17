@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>规格/库存</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="javascript:void(0);">首页</a>
+        <a href="javascript:void(0);">人人拼团</a>
+        <a href="javascript:void(0);">商品管理</a>
+        <a><cite>规格-库存</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i>
+      </a>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="{:url('admin/groups/goods')}" title="返回">
+        <i class="fa fa-reply"></i>返回
+      </a>
+    </div>
+
+    <div class="x-body">
+      <xblock>
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn" onclick="x_admin_show('添加规格','{:url('admin/groups/goods_options_publish',['pid'=>$one.id])}',500,400)"><i class="layui-icon"></i>添加规格</button>
+        <span style="line-height:40px;text-align: center;">商品：{$one.title}</span>
+      </xblock>
+      <table class="layui-table layui-form">
+        <thead>
+          <tr>
+            <th width="20">
+              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+            </th>
+            <th width="70">ID</th>
+            <th>名称</th>
+            <th width="50">排序</th>
+            <th width="50">状态</th>
+            <th width="280">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foreach name="list" key="k" item="v"}
+            <tr>
+              <td>
+                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{$v.id}-options'><i class="layui-icon">&#xe605;</i></div>
+              </td>
+              <td>{$v.id}</td>
+              <td>
+                <i class="layui-icon x-show" status='true'>&#xe623;</i>
+                {$v.title}
+                {notempty name="v.thumb"}
+                  <img src="{$v.thumb|getImage}" alt="" style="width:26px;height:26px;">
+                {/notempty}
+              </td>
+              <td><input type="text" class="layui-input x-sort" name="order" value="{$v.orders}" onblur="uporder(this.value,'{$v.id}','options')"></td>
+              <td class="yc" id="yc{$v.id}">
+                <input type="checkbox" name="switch"  lay-text="显示|隐藏" class="hide-show" data-tb="options" data-id="{$v.id}" data-st="{$v.is_show}" {eq name="v.is_show" value="y"}checked=""{/eq} lay-skin="switch">
+              </td>
+              <td class="td-manage">
+                <button class="layui-btn layui-btn layui-btn-xs"  onclick="x_admin_show('编辑规格','{:url('admin/groups/goods_options_publish',['id'=>$v.id])}',500,400)" ><i class="layui-icon">&#xe642;</i>编辑</button>
+                <button class="layui-btn layui-btn-warm layui-btn-xs"  onclick="x_admin_show('添加规格','{:url('admin/groups/goods_options_item_publish',['pid'=>$one.id,'pid1'=>$v.id])}',500,500)" ><i class="layui-icon">&#xe642;</i>添加规格</button>
+                <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'{$v.id}','options')" href="javascript:void(0);" ><i class="layui-icon">&#xe640;</i>删除</button>
+              </td>
+            </tr>
+            {notempty name="v.child"}
+              {foreach name="v.child" item="va" key="ke"}
+                <tr>
+                  <td>
+                    <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{$va.id}-options_item'><i class="layui-icon">&#xe605;</i></div>
+                  </td>
+                  <td>{$va.id}</td>
+                  <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    ├&nbsp;
+                    {$va.title}
+                    {notempty name="va.thumb"}
+                      <img src="{$va.thumb|getImage}" alt="" style="width:26px;height:26px;">
+                    {/notempty}
+                  </td>
+                  <td><input type="text" class="layui-input x-sort" name="order" value="{$va.orders}" onblur="uporder(this.value,'{$va.id}','options_item')"></td>
+                  <td class="yc yc{$v.id}">
+                    <input type="checkbox" name="switch"  lay-text="显示|隐藏" class="hide-show" data-tb="options_item" data-id="{$va.id}" data-st="{$va.is_show}" {eq name="va.is_show" value="y"}checked=""{/eq} lay-skin="switch">
+                  </td>
+                  <td class="td-manage">
+                    <button class="layui-btn layui-btn layui-btn-xs"  onclick="x_admin_show('编辑规格','{:url('admin/groups/goods_options_item_publish',['id'=>$va.id])}',500,500)" ><i class="layui-icon">&#xe642;</i>编辑</button>
+                    <button class="layui-btn layui-btn-warm layui-btn-xs" style="background:#ccc"><i class="layui-icon">&#xe642;</i>添加规格</button>
+                    <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'{$va.id}','options_item')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
+                  </td>
+                </tr>
+              {/foreach}
+            {/notempty}
+          {/foreach}
+        </tbody>
+      </table>
+      <form class="layui-form" action="" lay-filter="component-form-group" id="froma">
+        <table class="layui-table layui-form">
+          <thead>
+            <tr>
+              <th>规格</th>
+              <th width="80">库存</th>
+              <th width="80">拼团价:元</th>
+              <th width="80">单购价:元</th>
+              <th width="80">原价:元</th>
+              <th width="80">编码</th>
+              <th width="80">条码</th>
+              <th width="80">净重:g</th>
+              <th width="80">毛重:g</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>统一设置</td>
+              <td>
+                <input type="hidden" name="goodsid" value="{$one.id}">
+                <input type="text" class="layui-input x-sort" name="" value="" onkeyup="$('.total').val(this.value)">
+              </td>
+              <td>
+                <input type="text" class="layui-input x-sort" name="" value="" onkeyup="$('.marketprice').val(this.value)">
+              </td>
+              <td>
+                <input type="text" class="layui-input x-sort" name="" value="" onkeyup="$('.goodsprice').val(this.value)">
+              </td>
+              <td>
+                <input type="text" class="layui-input x-sort" name="" value="" onkeyup="$('.costprice').val(this.value)">
+              </td>
+              <td>
+                <input type="text" class="layui-input x-sort" name="" value="" onkeyup="$('.goodssn').val(this.value)">
+              </td>
+              <td>
+                <input type="text" class="layui-input x-sort" name="" value="" onkeyup="$('.productsn').val(this.value)">
+              </td>
+              <td>
+                <input type="text" class="layui-input x-sort" name="" value="" onkeyup="$('.j_weight').val(this.value)">
+              </td>
+              <td>
+                <input type="text" class="layui-input x-sort" name="" value="" onkeyup="$('.m_weight').val(this.value)">
+              </td>
+            </tr>
+            {foreach name="desc_item" key="k" item="v"}
+              <tr>
+                <td>
+                  <input type="hidden" name="item[{$k}][goodsid]" value="{$one.id}">
+                  <input type="hidden" name="item[{$k}][desc]" value="{$v.desc}">
+                  <input type="hidden" name="item[{$k}][desc_title]" value="{$v.desc_title}">
+                  {$v.desc_title}
+                </td>
+                <td>
+                  <input type="text" class="layui-input x-sort total" name="item[{$k}][total]" {notempty name="v.total"}value="{$v.total}"{/notempty}>
+                </td>
+                <td>
+                  <input type="text" class="layui-input x-sort marketprice" name="item[{$k}][groupsprice]" {notempty name="v.total"}value="{$v.groupsprice}"{/notempty}>
+                </td>
+                <td>
+                  <input type="text" class="layui-input x-sort goodsprice" name="item[{$k}][marketprice]" {notempty name="v.total"}value="{$v.marketprice}"{/notempty}>
+                </td>
+                <td>
+                  <input type="text" class="layui-input x-sort costprice" name="item[{$k}][goodsprice]" {notempty name="v.total"}value="{$v.goodsprice}"{/notempty}>
+                </td>
+                <td>
+                  <input type="text" class="layui-input x-sort goodssn" name="item[{$k}][goodssn]" {notempty name="v.total"}value="{$v.goodssn}"{/notempty}>
+                </td>
+                <td>
+                  <input type="text" class="layui-input x-sort productsn" name="item[{$k}][productsn]" {notempty name="v.total"}value="{$v.productsn}"{/notempty}>
+                </td>
+                <td>
+                  <input type="text" class="layui-input x-sort j_weight" name="item[{$k}][j_weight]" {notempty name="v.total"}value="{$v.j_weight}"{/notempty}>
+                </td>
+                <td>
+                  <input type="text" class="layui-input x-sort m_weight" name="item[{$k}][m_weight]" {notempty name="v.total"}value="{$v.m_weight}"{/notempty}>
+                </td>
+              </tr>
+            {/foreach}
+          </tbody>
+        </table>
+        <div class="layui-form-item layui-layout-admin">
+          <div class="layui-input-block">
+            <div class="layui-footer" style="left: 0;">
+              <button class="layui-btn" lay-submit="" lay-filter="froma">立即提交</button>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script type="text/javascript">
+    $(document).on('click','.yc .layui-unselect',function(){
+      var id = $(this).siblings('input').attr('data-id');
+      var va = $(this).siblings('input').attr('data-st');
+      var tb = $(this).siblings('input').attr('data-tb');
+      var that = this;
+      $.ajax({
+        url:"{:url('admin/groups/goods_options_shows')}",
+        data:{id:id,va:va,tb:tb},
+        dataType:'json',
+        type:'post',
+        success:function(res){
+          if(res.code=='0'){
+            layer.msg(res.msg,{icon:1,time:2000});
+            $(that).siblings('input').attr('data-st',res.va);
+            if(tb=="options" && va == 'n'){
+              $('.yc'+id).find('input').prop('checked',true);
+              $('.yc'+id).find('input').attr('data-st','y');
+              $('.yc'+id).find('input').siblings('.layui-unselect').addClass('layui-form-onswitch');
+            }else if(tb=="options" && va == 'y'){
+              $('.yc'+id).find('input').prop('checked',false);
+              $('.yc'+id).find('input').attr('data-st','n');
+              $('.yc'+id).find('input').siblings('.layui-unselect').removeClass('layui-form-onswitch');
+            }else if(tb=="options_item"){
+              var ll = $('.yc'+id).find('input').length;
+              var aa = 0;
+              for(i=0;i<ll;i++){
+                var aaa = $('.yc'+id).find('input').eq(i).attr('data-st');
+                if(aaa=="y"){
+                  aa = 1;
+                }
+              }
+              if(aa=='0'){
+                $('#yc'+id).find('input').prop('checked',false);
+                $('#yc'+id).find('input').attr('data-st','n');
+                $('#yc'+id).find('input').siblings('.layui-unselect').removeClass('layui-form-onswitch');
+              }
+            }
+          }else{
+            layer.msg(res.msg,{icon:2,time:1000});
+          }
+        },
+        error:function(res){
+          layer.msg('网络连接错误',{icon:2,time:1000});
+        }
+      })
+    })
+    layui.use(['form','upload'], function(){
+      form = layui.form,upload = layui.upload;
+      form.on('submit(froma)',function(e){
+        $.ajax({
+          url:"{:url('admin/groups/goods_options')}",
+          data:$('#froma').serialize(),
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+        return false;
+      });
+    })
+    /*删除*/
+    function member_del(obj,id,tb){
+      layer.confirm('确认要删除该规格吗？',function(index){
+        //发异步删除数据
+        $.ajax({
+          url:"{:url('admin/groups/goods_options_del')}",
+          data:{id:id,tb:tb},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+      });
+    }
+    function delAll (argument) {
+      var data = tableCheck.getData();
+      layer.confirm('确认要删除吗？',function(index){
+        //捉到所有被选中的，发异步进行删除
+        $.ajax({
+          url:"{:url('admin/groups/goods_options_delall')}",
+          data:{id:data},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+      });
+    }
+    function uporder(va,id,tb){
+        $.ajax({
+          url:"{:url('admin/groups/goods_options_order')}",
+          data:{id:id,va:va,tb:tb},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+      }
+  </script>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>门店列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="javascript:void(0);">首页</a>
+        <a href="javascript:void(0);">订单管理</a>
+        <a><cite>订单列表</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i>
+      </a>
+      {if $zid>'0'}
+        <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:history.go(-1);" title="返回">
+          <i class="fa fa-reply"></i>返回
+        </a>
+      {/if}
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so layui-form-pane" id="search">
+          <div class="layui-inline">
+            <select lay-search name="status" lay-filter="myselect1" id="status">
+              <option value="all">全部状态</option>
+              <option value="1" {if $status=="1"}selected{/if}>待付款</option>
+              <option value="2" {if $status=="2"}selected{/if}>待发货</option>
+              <option value="3" {if $status=="3"}selected{/if}>待收货</option>
+              <option value="4" {if $status=="4"}selected{/if}>已收货</option>
+              <option value="5" {if $status=="5"}selected{/if}>已完成</option>
+              <option value="-1" {if $status=="-1"}selected{/if}>已取消</option>
+              <option value="-2" {if $status=="-2"}selected{/if}>维权中</option>
+              <option value="-3" {if $status=="-3"}selected{/if}>退款中</option>
+              <option value="-4" {if $status=="-4"}selected{/if}>退货中</option>
+              <option value="-5" {if $status=="-5"}selected{/if}>维权完成</option>
+            </select>
+          </div>
+          <div class="layui-inline">
+            <select lay-search name="pay_type" lay-filter="myselect2" id="pay_type">
+              <option value="all">全部支付方式</option>
+              <option value="alipay" {if $pay_type=="alipay"}selected{/if}>支付宝支付</option>
+              <option value="wxpay" {if $pay_type=="wxpay"}selected{/if}>微信支付</option>
+              <option value="yuepay" {if $pay_type=="yuepay"}selected{/if}>余额支付</option>
+              <option value="htpay" {if $pay_type=="htpay"}selected{/if}>后台支付</option>
+            </select>
+          </div>
+          <div class="layui-inline">
+            <select lay-search name="time_type" lay-filter="myselect3" id="time_type">
+              <option value="all">不按时间</option>
+              <option value="createtime" {if $time_type=="createtime"}selected{/if}>下单时间</option>
+              <option value="pay_time" {if $time_type=="pay_time"}selected{/if}>付款时间</option>
+              <option value="send_time" {if $time_type=="send_time"}selected{/if}>发货时间</option>
+              <option value="finish_time" {if $time_type=="finish_time"}selected{/if}>完成时间</option>
+            </select>
+          </div>
+          <input type="text" name="times" id="riqi" class="layui-input" readonly="readonly" value="{$start_time} ~ {$end_time}" style="width:200px">
+          <div class="layui-inline">
+            <select lay-search name="keys_key" lay-filter="myselect4" id="keys_key">
+              <option value="ordersn" {if $keys_key=="ordersn"}{/if}>订单号</option>
+              <option value="buyer" {if $keys_key=="buyer"}{/if}>买家</option>
+              <option value="consignee" {if $keys_key=="consignee"}{/if}>收货人信息</option>
+              <option value="address" {if $keys_key=="address"}{/if}>地址信息</option>
+              <option value="delivery" {if $keys_key=="delivery"}{/if}>快递单号</option>
+              <option value="goods_detail" {if $keys_key=="goods_detail"}{/if}>商品信息</option>
+              <option value="shop_detail" {if $keys_key=="shop_detail"}{/if}>店铺信息</option>
+            </select>
+          </div>
+          <input type="hidden" name="zid" value="{$Request.get.zid}">
+          <input type="text" name="keys"  placeholder="请输入关键字" autocomplete="off" class="layui-input" style="width:300px" value="{$Request.get.keys}">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+          <a href="{:url('admin/orders/daochu')}?status={$status}&pay_type={$pay_type}&time_type={$time_type}&times={$start_time} ~ {$end_time}&keys_key={$keys_key}&zid={$zid}&keys={$keys}" class="layui-btn">导出Excel</a>
+        </form>
+      </div>
+      <table class="layui-table layui-form">
+        <thead>
+          <tr>
+            <th width="130">订单号</th>
+            <th>商品</th>
+            <th width="250">买家</th>
+            <th width="130">支付/配送</th>
+            <th width="130">价格</th>
+            <th width="100">状态</th>
+            <th width="90">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foreach name="list" item="v"}
+            <tr>
+              {php}$ocount = orderZidan($v['id']);{/php}
+              <td style="text-align: center;">
+                {$v.ordersn}
+                {if $ocount>0}<p style="text-align: center;padding-top:15px;"><a href="{:url('admin/orders/lists',['zid'=>$v.id])}" style="color:#23a5f0;">查看子订单</a></p> {/if}
+              </td>
+              <td>
+                {foreach name="goods" item="va"}
+                  {if $va.order_id==$v.id}
+                    <div style="float:left;width:20%;border:1px solid #ccc;text-align: center;">
+                      <img src="{$va.image}" alt="" style="width:100%;">
+                    </div>
+                    <div style="float:left;width:50%;">
+                      <p style="padding:0 20px;width:100%;font-size:16px;font-weight:600;overflow: hidden;text-overflow:ellipsis;white-space:nowrap;">{$va.title}</p>
+                      <p style="padding:10px 20px;width:100%;">{$va.desc_title}</p>
+                    </div>
+                    <div style="float:left;width:28%;">
+                        <p style="padding:0 20px;width:100%;text-align: center;">￥{$va.marketprice}</p>
+                        <p style="padding:10px 20px;width:100%;text-align: center;">x {$va.total}</p>
+                    </div>
+                    <div style="clear:both;height:10px;"></div>
+                  {/if}
+                {/foreach}
+              </td>
+              <td>
+                <div><div style="float:left;width:25%;">姓名：</div><div style="float:left;width:75%;">{$v.consignee_name}</div></div>
+                <div style="clear:both;"></div>
+                <div><div style="float:left;width:25%;">电话：</div><div style="float:left;width:75%;">{$v.consignee_mobile}</div></div>
+                <div style="clear:both;"></div>
+                <div><div style="float:left;width:25%;">地址：</div><div style="float:left;width:75%;">{$v.consignee_address}</div></div>
+                <div style="clear:both;"></div>
+              </td>
+              <td style="text-align: center;">
+                {if $v.status=='-1'}已取消{/if}
+                {if $v.status=='0'}
+                  {if in_array($v.id,$quxiaoid)}
+                  {else /}
+                    未支付<br/>快递
+                  {/if}
+                {/if}
+                {if $v.status=='1'}
+                  {if $v.pay_type=='alipay'} <img src="{:statics('img')}alipay.png" alt="" style="height:20px">支付宝支付{/if}
+                  {if $v.pay_type=='wxpay'}  <img src="{:statics('img')}wxpay.png" alt="" style="height:20px">微信支付{/if}
+                  {if $v.pay_type=='yuepay'} <img src="{:statics('img')}yuepay.png" alt="" style="height:20px">余额支付{/if}
+                  {if $v.pay_type=='htpay'}后台支付{/if}<br/>快递
+                {/if}
+                {if ($v.status=='2') OR ($v.status=='3') OR ($v.status=='4') OR ($v.status=='5')}
+                  {if $v.pay_type=='alipay'} <img src="{:statics('img')}alipay.png" alt="" style="height:20px">支付宝支付{/if}
+                  {if $v.pay_type=='wxpay'}  <img src="{:statics('img')}wxpay.png" alt="" style="height:20px">微信支付{/if}
+                  {if $v.pay_type=='yuepay'} <img src="{:statics('img')}yuepay.png" alt="" style="height:20px">余额支付{/if}
+                  {if $v.pay_type=='htpay'}后台支付{/if}<br/>{$v.express_company}
+                {/if}
+              </td>
+              <td>
+                <p style="text-align: center;">￥{$v.price}</p>
+                {if $v.postageprice>0}<p style="font-size:12px;text-align: center;">(含运费：￥{$v.postageprice})</p>{/if}
+                {if $v.discount>0}<p style="font-size:12px;text-align: center;color:green;">(已优惠：￥{$v.discount})</p>{/if}
+              </td>
+              <td style="text-align: center;">
+                {if $v.status=='-1'}
+                  <p style="color:red;">已取消</p>
+                  <p style="padding-top:15px;">
+                    <a href="javascript:void(0);" onclick="x_admin_show('查询付款状态','{:url('admin/orders/check_fukuan_publish',['id'=>$v.id])}',700,390)" style="padding:2px 10px;background:#23a5f0;color:#fff;border-radius:5px;">付款查询</a>
+                  </p>
+                {/if}
+                {if $v.status=='0'}
+                  {if in_array($v.id,$quxiaoid)}
+                    <p style="color:red;">已取消</p>
+                    <p style="padding-top:15px;">
+                      <a href="javascript:void(0);" onclick="x_admin_show('查询付款状态','{:url('admin/orders/check_fukuan_publish',['id'=>$v.id])}',700,390)" style="padding:2px 10px;background:#23a5f0;color:#fff;border-radius:5px;">付款查询</a>
+                    </p>
+                  {else /}
+                    <p style="color:#23a5f0;">待付款</p>
+                    <p style="padding-top:15px;">
+                      <a href="javascript:void(0);" onclick="x_admin_show('确认付款','{:url('admin/orders/fukuan_publish',['id'=>$v.id])}',700,390)" style="padding:2px 10px;background:#23a5f0;color:#fff;border-radius:5px;">确认付款</a>
+                    </p>
+                  {/if}
+                {/if}
+                {if $v.status=='1'}
+                  <p>待发货</p>
+                  <p style="padding-top:15px;">
+                    <a href="javascript:void(0);" onclick="x_admin_show('确认发货','{:url('admin/orders/fahuo_publish',['id'=>$v.id])}',700,390)" style="padding:2px 10px;background:#23a5f0;color:#fff;border-radius:5px;">确认发货</a>
+                  </p>
+                {/if}
+                {if $v.status=='2'}
+                  {if in_array($v.id,$shouhuoid)}
+                    <p>待评价</p>
+                    <p style="padding-top:15px;">
+                      <a href="javascript:void(0);" onclick="wancheng('{$v.id}')" style="padding:2px 10px;background:#23a5f0;color:#fff;border-radius:5px;">确认完成</a>
+                    </p>
+                  {else /}
+                    <p>待收货</p>
+                    <p style="padding-top:15px;">
+                      <a href="javascript:void(0);" onclick="shouhuo('{$v.id}')" style="padding:2px 10px;background:#23a5f0;color:#fff;border-radius:5px;">确认收货</a>
+                    </p>
+                    <p style="padding-top:15px;">
+                      <a href="javascript:void(0);" onclick="quxiao('{$v.id}')" style="padding:2px 10px;background:#23a5f0;color:#fff;border-radius:5px;">取消发货</a>
+                    </p>
+                  {/if}
+                {/if}
+                {if $v.status=='3'}
+                  {if in_array($v.id,$wanchengid)}
+                    <p style="color:green;">已完成</p>
+                  {else /}
+                    <p>待评价</p>
+                    <p style="padding-top:15px;">
+                      <a href="javascript:void(0);" onclick="wancheng('{$v.id}')" style="padding:2px 10px;background:#23a5f0;color:#fff;border-radius:5px;">确认完成</a>
+                    </p>
+                  {/if}
+                {/if}
+                {if $v.status=='4'}<p style="color:green;">已完成</p>{/if}
+              </td>
+              <td style="text-align: center;">
+                <a href="{:url('admin/orders/detail',['id'=>$v.id])}"><p style="color:#23a5f0">查看详情</p></a>
+                {if $v.status=='2' OR $v.status=='3' OR $v.status=='4'}
+                  <a href="javascript:void(0);" onclick="x_admin_show('物流信息','{:url('admin/orders/wuliu',['id'=>$v.id])}',600,400)"><p style="color:#23a5f0;padding-top:10px;">物流信息</p></a>
+                {/if}
+              </td>
+            </tr>
+          {/foreach}
+        </tbody>
+      </table>
+      <div id="page" {eq name="count" value="0"}style="display:none;"{/eq}>
+        {$list|raw}
+      </div>
+      {eq name="count" value="0"}
+        <p style="text-align:center;line-height:80px;color:red;font-size:16px;">暂时没有相关订单</p>
+      {/eq}
+    </div>
+  </body>
+  <script type="text/javascript">
+    layui.use(['form','upload','laydate'], function(){
+      form = layui.form,upload = layui.upload,laydate = layui.laydate;
+      laydate.render({ 
+        elem: '#riqi',
+        min: '2019-1-1',
+        range: "~",
+        max: '{:date('Y-m-d',time())}',
+        done: function(value, date, endDate){
+          console.log(value);
+        }
+    });
+    })
+    function quxiao(id){
+      layer.confirm('确认要取消发货吗？',function(index){
+        //发异步删除数据
+        $.ajax({
+          url:"{:url('admin/orders/fahuo_cancel')}",
+          data:{id:id},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+      });
+    }
+    function shouhuo(id){
+      layer.confirm('确认可以收货了吗？',function(index){
+        //发异步删除数据
+        $.ajax({
+          url:"{:url('admin/orders/shouhuo')}",
+          data:{id:id},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+      });
+    }
+    function wancheng(id){
+      layer.confirm('确认可以完成该订单了吗？',function(index){
+        //发异步删除数据
+        $.ajax({
+          url:"{:url('admin/orders/wancheng')}",
+          data:{id:id},
+          dataType:'json',
+          type:'post',
+          success:function(res){
+            if(res.code=='0'){
+              layer.msg(res.msg,{icon:1,time:2000});
+              setTimeout(function(){
+                location.replace(location.href);
+              },2000);
+            }else{
+              layer.msg(res.msg,{icon:2,time:1000});
+            }
+          },
+          error:function(res){
+            layer.msg('网络连接错误',{icon:2,time:1000});
+          }
+        })
+      });
+    }
+  </script>
+</html>

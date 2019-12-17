@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>门店列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="javascript:void(0);">首页</a>
+        <a href="javascript:void(0);">财务管理</a>
+        <a><cite>提现明细</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:38px">ဂ</i>
+      </a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so layui-form-pane" id="search">
+          <div class="layui-inline">
+            <select lay-search name="status" lay-filter="myselect1" id="status">
+              <option value="all">全部状态</option>
+              <option value="1" {if $status=="1"}selected{/if}>审核中</option>
+              <option value="2" {if $status=="2"}selected{/if}>提现成功</option>
+              <option value="3" {if $status=="3"}selected{/if}>提现失败</option>
+            </select>
+          </div>
+          <input type="text" name="keys"  placeholder="请输入申请人姓名/银行卡号/手机号" autocomplete="off" class="layui-input" style="width:300px" value="{$Request.get.keys}">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+          <a href="{:url('admin/finance/tixian_daochu')}?status={$status}&keys={$Request.get.keys}" class="layui-btn">导出Excel</a>
+          <a href="{:url('admin/finance/tixian_daoru')}" class="layui-btn">导入Excel</a>
+        </form>
+      </div>
+      <table class="layui-table layui-form">
+        <thead>
+          <tr>
+            <th width="130">编号</th>
+            <th>提现信息</th>
+            <th width="250">申请人</th>
+            <th width="130">申请时间</th>
+            <th width="130">申请金额</th>
+            <th width="100">状态</th>
+            <th width="90">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foreach name="list" item="v"}
+            {php}$bankbody = json_decode($v['bankbody'],1);{/php}
+            <tr>
+              <td>{$v.id}</td>
+              <td>
+                提现银行：{$bankbody.bankname}<br/>
+                开户行：{$bankbody.banknamea}<br/>
+                持卡人：{$bankbody.name}<br/>
+                银行卡号：{$bankbody.cardid}<br/>
+                预留手机：{$bankbody.phone}
+              </td>
+              <td>{$v.uid|getMember}</td>
+              <td>{$v.addtime|date="Y-m-d H:i:s"}</td>
+              <td>￥{$v.money}</td>
+              <td>
+                {eq name="v.status" value="0"}审核中{/eq}
+                {eq name="v.status" value="1"}提现成功{/eq}
+                {eq name="v.status" value="2"}提现失败{/eq}
+              </td>
+              <td>
+                <a href="{:url('admin/finance/tixianDetail',['id'=>$v.id])}"><p style="color:#23a5f0">查看详情</p></a>
+                {eq name="v.status" value="0"}
+                  <a href="javascript:void(0);" onclick="x_admin_show('提现审核','{:url('admin/finance/tixianShenhe',['id'=>$v.id])}',600,400)"><p style="color:#23a5f0;padding-top:10px;">去审核</p></a>
+                {/eq}
+                {eq name="v.status" value="1"}
+                 
+                {/eq}
+                {eq name="v.status" value="2"}{/eq}
+                {eq name="v.status" value="-1"}{/eq}
+              </td>
+            </tr>
+          {/foreach}
+        </tbody>
+      </table>
+      <div id="page" {eq name="count" value="0"}style="display:none;"{/eq}>
+        {$list|raw}
+      </div>
+      {eq name="count" value="0"}
+        <p style="text-align:center;line-height:80px;color:red;font-size:16px;">暂时没有相关提现明细</p>
+      {/eq}
+    </div>
+  </body>
+</html>

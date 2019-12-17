@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>订单详情</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+    <link rel="stylesheet" href="{:statics('css')}jindu.css">
+    <script src="{:statics('js')}jquery.min.js"></script>
+    <script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body class="form-wrap" >
+  <div class="x-nav">
+    <span class="layui-breadcrumb">
+      <a href="javascript:void(0);">首页</a>
+      <a href="javascript:void(0);">门店管理</a>
+      <a href="javascript:void(0);">线下订单</a>
+      <a><cite>订单详情</cite></a>
+    </span>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+      <i class="layui-icon" style="line-height:38px;font-size:12px">ဂ刷新</i>
+    </a>
+    <a class="layui-btn layui-btn-primary layui-btn-small" style="line-height:38px;margin-top:3px;float:right" href="javascript:history.go(-1)" title="返回">
+      <i class="fa fa-reply"></i>返回
+    </a>
+  </div>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body" style="padding: 15px;">
+        <div class="orders">
+          <div class="lefts">订单编号：</div>
+          <div class="rights">{$one.ordersn}</div>
+          <div class="clear"></div>
+          <div class="lefts">客户类型：</div>
+          <div class="rights">{foreach name="kehutype" item="val"}{if $val.id==$one.kehu_types}{$val.title}{/if}{/foreach}</div>
+          <div class="clear"></div>
+          <div class="lefts">客户姓名：</div>
+          <div class="rights">{$one.kehu_name}</div>
+          <div class="clear"></div>
+          <div class="lefts">客户电话：</div>
+          <div class="rights">{$one.kehu_phone}</div>
+        </div>
+        <div class="zhuangtai">
+          <div class="lefts">订单状态：</div>
+          <div class="rights"><span style="color:green;font-size:18px;">已完成</span></div>
+          <div class="clear"></div>
+          <div class="buttoms">
+            <a href="javascript:void(0);" onclick="x_admin_show('添加备注','{:url('admin/stores/xianxia_beizhu',['id'=>$one.id])}',600,400)">添加备注</a>
+          </div>
+        </div>
+        <div class="clear"></div>
+        <p style="font-size:18px;padding:20px 0;">商品信息</p>
+        <table class="goods">
+          <tr>
+            <th style="text-align: left;">商品标题</th>
+            <th style="text-align: left;" width="180">规格/编号/条码</th>
+            <th width="100">单价</th>
+            <th width="50">数量</th>
+            <th width="100">商品金额</th>
+            <th width="100">实付金额</th>
+          </tr>
+          {foreach name="one.goods" item="v"}
+            <tr>
+              <td>
+                {notempty name="v.thumb"}<img src="{$v.thumb|getImage}" alt="" style="height:80px;">{/notempty}
+                <div>{$v.goods_title}</div>
+              </td>
+              <td style="text-align: left;">
+                <p>规格：{$v.desc_title}</p>
+                <p>编号：{$v.goodssn?$v.goodssn:'无'}</p>
+                <p>条码：{$v.productsn?$v.productsn:'无'}</p>
+              </td>
+              <td>
+                ￥{$v.marketprice} 
+                {if $v.marketprice<$v.goodsprice}
+                  <br/><span style="text-decoration: line-through;color:#ccc">￥{$v.goodsprice}</span>
+                {/if}
+              </td>
+              <td> x {$v.total}</td>
+              <td>￥{:sprintf('%.2f',round($v.goodsprice*$v.total,2))}</td>
+              <td>￥{:sprintf('%.2f',round($v.marketprice*$v.total,2))}</td>
+            </tr>
+          {/foreach}
+          <tr class="heji">
+            <td colspan="3" style="text-align: right;">合计：</td>
+            <td>{$one.total}</td>
+            <td>￥{$one.goodsprice}</td>
+            <td>￥{$one.marketprice}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  var hh = $('.orders').css('height');
+  $('.zhuangtai').css('height',hh);
+</script>
+</html>

@@ -1,0 +1,878 @@
+html #index-main {
+  display: block;
+  height: auto;
+}
+html #index-main .notice_list {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 20px 30px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+}
+html #index-main .notice_list .notice {
+  width: 80%;
+  height: 26px;
+  overflow: hidden;
+  background: url('../images/note_icon.png') no-repeat left;
+  font-size: 14px;
+  margin: 10px 0;
+}
+html #index-main .notice_list .notice .noticTipTxt {
+  color: #323232;
+  height: 22px;
+  line-height: 22px;
+  overflow: hidden;
+  margin: 0 0 0 40px;
+}
+html #index-main .notice_list .notice .noticTipTxt li {
+  height: 22px;
+  line-height: 22px;
+}
+html #index-main .notice_list .notice .noticTipTxt li a {
+  color: #323232;
+  font-size: 14px;
+  text-decoration: none;
+}
+html #index-main .notice_list .notice .noticTipTxt li a:hover {
+  color: #323232;
+  text-decoration: underline;
+}
+html #index-main .notice_list .btns {
+  width: 150px;
+  height: 50px;
+  border: 1px solid #ff973b;
+  display: block;
+  font-size: 16px;
+  line-height: 50px;
+  text-align: center;
+  color: #ff973b;
+  position: absolute;
+  top: 40px;
+  right: 30px;
+}
+html #index-main .top10 {
+  width: 96%;
+  margin: 0 2%;
+  margin-top: 30px;
+}
+html #index-main .top10 .tops {
+  width: 49%;
+  background: #FFF;
+  padding: 0px 30px;
+  padding-bottom: 20px;
+}
+html #index-main .top10 .tops .tstitle {
+  line-height: 66px;
+  font-size: 20px;
+  color: #323232;
+  font-weight: 600;
+}
+html #index-main .top10 .tops .tstitle a {
+  float: right;
+  font-size: 16px;
+  color: #666666;
+  font-weight: 500;
+}
+html #index-main .top10 .tops .logo {
+  width: 30%;
+  height: 120px;
+  position: relative;
+  overflow: none;
+  border: 1px solid #f0f0f0;
+}
+html #index-main .top10 .tops .logo img {
+  width: 100%;
+}
+html #index-main .top10 .tops .tj {
+  padding-left: 25px;
+  width: 70%;
+}
+html #index-main .top10 .tops .tj p {
+  line-height: 44px;
+  border-bottom: 1px solid #f0f0f0;
+  width: 100%;
+  font-size: 16px;
+  color: #656565;
+}
+html #index-main .top10 .tops .tj p span {
+  float: right;
+  font-size: 20px;
+  color: #323232;
+}
+html #index-main .datas {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 30px 30px;
+  position: relative;
+  margin-top: 152px;
+}
+html #index-main .datas .d_navs ul li {
+  padding: 5px 15px;
+  border: 1px solid #dcdcdc;
+  margin: 0 5px;
+  cursor: pointer;
+}
+html #index-main .datas .d_navs ul li:first-child {
+  margin-left: 0px;
+}
+html #index-main .datas .d_navs ul li:hover {
+  border: 1px solid #e60012;
+  color: #e60012;
+}
+html #index-main .datas .d_navs ul .active {
+  background: #e60012;
+  color: #FFFFFF;
+  border: 1px solid #e60012;
+}
+html #index-main .datas .d_navs ul .active:hover {
+  background: #e60012;
+  color: #FFFFFF;
+  border: 1px solid #e60012;
+}
+html #index-main .datas .d_date {
+  position: relative;
+}
+html #index-main .datas .d_date ul li {
+  padding: 5px 15px;
+  border: 1px solid #dcdcdc;
+  margin: 0 5px;
+  cursor: pointer;
+}
+html #index-main .datas .d_date ul li:last-child {
+  margin-right: 0px;
+}
+html #index-main .datas .d_date ul li:hover {
+  border: 1px solid #e60012;
+  color: #e60012;
+}
+html #index-main .datas .d_date ul .active {
+  background: #e60012;
+  color: #FFFFFF;
+  border: 1px solid #e60012;
+}
+html #index-main .datas .d_date ul .active:hover {
+  background: #e60012;
+  color: #FFFFFF;
+  border: 1px solid #e60012;
+}
+html #index-main .datas .d_date #riqi {
+  position: absolute;
+  right: 70px;
+  top: 0px;
+  height: 28px;
+  width: 255px;
+  padding: 0 15px;
+  display: none;
+  font-size: 14px;
+}
+html #index-main .datas .shuju {
+  width: 30%;
+  height: 281px;
+  border: 1px solid #f0f0f0;
+  margin-right: 5%;
+  margin-top: 20px;
+}
+html #index-main .datas .shuju .topt {
+  font-size: 20px;
+  color: #323232;
+  font-weight: 600;
+  margin: 0 30px;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+html #index-main .datas .shuju .p1 {
+  margin: 0 30px;
+  margin-top: 0px;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+  height: 50px;
+  line-height: 50px;
+}
+html #index-main .datas .shuju .p1 i {
+  padding-left: 5px;
+}
+html #index-main .datas .shuju .p1 span {
+  float: right;
+  padding: 0px 15px;
+  color: #656565;
+  font-size: 20px;
+}
+html #index-main .datas .shuju .p2 {
+  border-bottom: none;
+  color: #e60012;
+  font-size: 18px;
+}
+html #index-main .datas .shuju .p2 span {
+  color: #656565;
+  font-size: 28px;
+}
+html #index-main .datas .no-m {
+  margin-right: 0px;
+}
+html #index-main .datas .fabu {
+  border-top: 10px solid #ff973b;
+}
+html #index-main .datas .yuedu {
+  border-top: 10px solid #2a89ff;
+}
+html #index-main .datas .dianzan {
+  border-top: 10px solid #ffc617;
+}
+html #index-main .tongji {
+  width: 96%;
+  margin: 0 2%;
+  position: relative;
+  margin-top: 30px;
+}
+html #index-main .tongji .tjbox {
+  width: 24%;
+  margin-right: 1.33333%;
+}
+html #index-main .tongji .tjbox .tjtitle {
+  font-size: 20px;
+  background: #ffc617;
+  color: #FFF;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+}
+html #index-main .tongji .tjbox .shuju {
+  height: 240px;
+  width: 100%;
+  background: #FFF;
+}
+html #index-main .tongji .no-m {
+  margin-right: 0px;
+}
+html #index-main .task {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 30px 30px;
+  position: relative;
+  margin-top: 30px;
+}
+html #index-main .task .topt {
+  font-size: 20px;
+  font-weight: 600;
+}
+html #index-main .task .topt a {
+  float: right;
+  font-size: 16px;
+  font-weight: 500;
+}
+html #index-main .task .task_table {
+  width: 100%;
+  margin-top: 30px;
+  border: 1px solid #eef1f5;
+}
+html #index-main .task .task_table th {
+  font-size: 18px;
+  color: #323232;
+  height: 65px;
+  background: #eef1f5;
+  text-align: center;
+}
+html #index-main .task .task_table td {
+  font-size: 16px;
+  color: #323232;
+  height: 65px;
+  text-align: center;
+  border-bottom: 1px solid #eef1f5;
+}
+html #index-main .task .task_table .qk span {
+  color: #e60012;
+}
+html #index-main .task .task_table .qk i {
+  color: #ff973b;
+  font-size: 18px;
+}
+html #index-main .task .task_table .cz {
+  color: #e60012;
+}
+html #index-main .task .task_table .cz i {
+  cursor: pointer;
+}
+html #index-main .wenzhang {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 30px 30px;
+  position: relative;
+  margin-top: 30px;
+}
+html #index-main .wenzhang .topt {
+  font-size: 20px;
+  font-weight: 600;
+}
+html #index-main .wenzhang .topt a {
+  float: right;
+  font-size: 16px;
+  font-weight: 500;
+}
+html #index-main .wenzhang .wenzhang_table {
+  width: 100%;
+  margin-top: 30px;
+  table-layout: fixed;
+  word-wrap: break-word;
+}
+html #index-main .wenzhang .wenzhang_table th {
+  width: 20%;
+  padding: 30px 0px;
+}
+html #index-main .wenzhang .wenzhang_table th img {
+  max-width: 100%;
+}
+html #index-main .wenzhang .wenzhang_table td {
+  width: 30%;
+  padding: 30px 30px;
+  vertical-align: top;
+}
+html #index-main .wenzhang .wenzhang_table td p {
+  font-size: 14px;
+  text-align: left;
+  line-height: 35px;
+  color: #666666;
+}
+html #index-main .wenzhang .wenzhang_table td p a {
+  line-height: 28px;
+}
+html #index-main .wenzhang .wenzhang_table td p a span {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #666666;
+  text-align: center;
+  line-height: 28px;
+  border-radius: 100%;
+  margin: 0 10px;
+  padding: 0px;
+}
+html #index-main .wenzhang .wenzhang_table td p a .no-r {
+  margin-left: 0px;
+}
+html #index-main .wenzhang .wenzhang_table td .p1 {
+  width: 100%;
+  font-size: 18px;
+  line-height: 40px;
+  color: #323232;
+  course: hand;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  /* for IE */
+  -o-text-overflow: ellipsis;
+  /* for Opera */
+  -icab-text-overflow: ellipsis;
+  /* for iCab */
+  -khtml-text-overflow: ellipsis;
+  /* for Konqueror Safari */
+  -moz-text-overflow: ellipsis;
+  /* for Firefox,mozilla */
+  -webkit-text-overflow: ellipsis;
+  /* for Safari,Swift*/
+}
+html #index-main .wenzhang .wenzhang_table td .p2 {
+  margin-top: 20px;
+}
+html .tablist {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 20px 30px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  min-height: 600px;
+}
+html .tablist .tabtop .btn-add {
+  width: 148px;
+  height: 50px;
+  border: none;
+  background: #ff973b;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+html .tablist .list-cont {
+  width: 100%;
+  margin-top: 20px;
+}
+html .tablist .list-cont th {
+  height: 60px;
+  background: #323232;
+  color: #FFFFFF;
+  font-size: 16px;
+  border: none;
+  text-align: center;
+}
+html .tablist .list-cont td {
+  height: 60px;
+  font-size: 16px;
+  text-align: center;
+  border: none;
+}
+html .tablist .list-cont td a {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  line-height: 40px;
+  text-align: center;
+  display: block;
+  float: left;
+  margin: 0 5px;
+}
+html .tablist .list-cont td .edit {
+  background: #e60012;
+  color: #FFFFFF;
+  font-size: 16px;
+}
+html .tablist .list-cont td .del {
+  background: #ff973b;
+  color: #FFFFFF;
+  font-size: 16px;
+}
+html .tablist .list-cont tr:nth-child(even) {
+  background: #f5f5f5;
+}
+html #page {
+  background: #FFF;
+  width: 96%;
+  margin: 0 2%;
+  padding: 20px 30px;
+  display: block;
+}
+html #page a,
+html #page span {
+  margin-right: 10px;
+}
+html #page a:hover {
+  color: #e60012;
+}
+html #page .layui-laypage-curr .layui-laypage-em {
+  background: #e60012;
+  color: #fff;
+}
+html .layui-form-checked[lay-skin=primary] i {
+  border-color: #666666;
+  background-color: #666666;
+  color: #fff;
+}
+html .a1st {
+  padding-left: 50px;
+}
+html .layui-btn[lay-filter=formDemo] {
+  background-color: #e60012;
+}
+html .search {
+  float: right;
+}
+html .search label {
+  line-height: 40px;
+  padding: 0px 10px;
+}
+html .search input[type="text"] {
+  height: 30px;
+  padding: 0 15px;
+}
+html .search input[type="submit"] {
+  height: 30px;
+  padding: 0 15px;
+  background: #e60012;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+html #images-list .searchs {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 20px 30px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  min-height: 182px;
+  position: relative;
+}
+html #images-list .searchs .t-search .btsns {
+  height: 34px;
+  width: 106px;
+  margin-left: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #e60012;
+  color: #FFF;
+}
+html #images-list .searchs .btnsll {
+  height: 40px;
+  padding: 0px 20px;
+  border: none;
+  background: #e60012;
+  color: #FFFFFF;
+  position: absolute;
+  top: 71px;
+  right: 30px;
+  cursor: pointer;
+  font-size: 16px;
+}
+html #images-list .img-list {
+  background: #FFF;
+  width: 96%;
+  margin: 0 2%;
+  padding: 20px 30px;
+  display: block;
+  margin-top: 30px;
+}
+html #images-list .img-list ul li {
+  position: relative;
+}
+html #images-list .img-list ul li .li-body {
+  width: 96%;
+  margin: 2% 2%;
+}
+html #images-list .img-list ul li .li-body .img {
+  width: 100%;
+  overflow: hidden;
+  cursor: pointer;
+}
+html #images-list .img-list ul li .li-body .img img {
+  width: 100%;
+  transform: scale(1);
+  transition: all 1s ease 0s;
+}
+html #images-list .img-list ul li .li-body .img:hover img {
+  transform: scale(1.2);
+  transition: all 1s ease 0s;
+}
+html #images-list .img-list ul li .li-body p {
+  padding: 10px 15px;
+  font-size: 14px;
+}
+html #images-list .img-list ul li .mores {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  color: #000;
+  z-index: 99;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 100%;
+  text-align: center;
+  line-height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+}
+html #images-list .img-list ul li .do-mores {
+  position: absolute;
+  top: 25%;
+  right: 5%;
+  z-index: 99;
+  background: #ffffff;
+  padding: 10px 15px;
+  display: none;
+}
+html #images-list .img-list ul li .do-mores p {
+  line-height: 20px;
+  cursor: pointer;
+}
+html #wenzhangAdd .main {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 20px 30px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  min-height: 182px;
+  position: relative;
+}
+html #wenzhang-list .searchs {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 20px 30px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  min-height: 182px;
+  position: relative;
+}
+html #wenzhang-list .searchs .t-search .btsns {
+  height: 34px;
+  width: 106px;
+  margin-left: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #e60012;
+  color: #FFF;
+}
+html #wenzhang-list .searchs .btnsll {
+  height: 40px;
+  padding: 0px 20px;
+  border: none;
+  background: #e60012;
+  color: #FFFFFF;
+  position: absolute;
+  top: 71px;
+  right: 30px;
+  cursor: pointer;
+  font-size: 16px;
+}
+html #wenzhang-list .wz-list {
+  background: #FFF;
+  width: 96%;
+  margin: 0 2%;
+  padding: 20px 30px;
+  display: block;
+  margin-top: 30px;
+}
+html #wenzhang-list .wz-list .wz-table {
+  width: 100%;
+}
+html #wenzhang-list .wz-list .wz-table td {
+  padding: 40px 0;
+  vertical-align: top;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #eef1f5;
+}
+html #wenzhang-list .wz-list .wz-table .cont {
+  padding: 40px 20px;
+  position: relative;
+}
+html #wenzhang-list .wz-list .wz-table .cont .ctitle {
+  font-size: 18px;
+  color: #323232;
+  line-height: 36px;
+  width: 80%;
+}
+html #wenzhang-list .wz-list .wz-table .cont .cly,
+html #wenzhang-list .wz-list .wz-table .cont .cfb {
+  font-size: 16px;
+  color: #323232;
+  line-height: 36px;
+}
+html #wenzhang-list .wz-list .wz-table .cont .czl {
+  position: absolute;
+  bottom: 40px;
+  left: 20px;
+  width: 100%;
+}
+html #wenzhang-list .wz-list .wz-table .cont .czl div {
+  padding-right: 5%;
+  font-size: 16px;
+  color: #a0a0a0;
+}
+html #wenzhang-list .wz-list .wz-table .cont .czl div img {
+  margin-right: 5px;
+}
+html #wenzhang-list .wz-list .wz-table .cont .caozuo {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+}
+html #wenzhang-list .wz-list .wz-table .cont .caozuo a {
+  color: #a0a0a0;
+  font-size: 16px;
+  padding-left: 10px;
+}
+html #wenzhang-list .wz-list .wz-table .cont .caozuo a img {
+  margin-right: 5px;
+}
+html #wenzhang-list .wz-list #wz-lists li {
+  padding: 10px;
+}
+html #wenzhang-list .wz-list #wz-lists li .li-body {
+  border: 1px solid #f0f0f0;
+  padding: 10px;
+  position: relative;
+}
+html #wenzhang-list .wz-list #wz-lists li .li-body .img img {
+  width: 100%;
+}
+html #wenzhang-list .wz-list #wz-lists li .li-body .ltitle {
+  text-align: center;
+  line-height: 36px;
+  font-size: 18px;
+  color: #323232;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+html #wenzhang-list .wz-list #wz-lists li .li-body .caozuo a {
+  line-height: 20px;
+  font-size: 14px;
+  display: block;
+  width: 25%;
+  float: left;
+}
+html #wenzhang-list .wz-list #wz-lists li .li-body .caozuo a img {
+  margin-right: 5px;
+  margin-top: -5px;
+}
+html #wenzhang-list .wz-list #wz-lists li .li-body .shanchu {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.5);
+  line-height: 48px;
+  text-align: center;
+  display: none;
+}
+html #wenzhang-list .wz-list #wz-lists li .li-body:hover {
+  border: 1px solid #e60012;
+}
+html #wenzhang-list .wz-list #wz-lists li .li-body:hover .caozuo a span {
+  color: #e60012;
+}
+html #wenzhang-list .wz-list #wz-lists li .li-body:hover .shanchu {
+  display: block;
+}
+html #wenzhang-list .task {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 30px 30px;
+  position: relative;
+  margin-top: 30px;
+}
+html #wenzhang-list .task .task_table {
+  width: 100%;
+  border: 1px solid #eef1f5;
+}
+html #wenzhang-list .task .task_table th {
+  font-size: 18px;
+  color: #323232;
+  height: 65px;
+  background: #eef1f5;
+  text-align: center;
+}
+html #wenzhang-list .task .task_table td {
+  font-size: 16px;
+  color: #323232;
+  height: 65px;
+  text-align: center;
+  border-bottom: 1px solid #eef1f5;
+}
+html #wenzhang-list .task .task_table .qk span {
+  color: #e60012;
+}
+html #wenzhang-list .task .task_table .qk i {
+  color: #ff973b;
+  font-size: 18px;
+}
+html #wenzhang-list .task .task_table .cz {
+  color: #e60012;
+}
+html #wenzhang-list .task .task_table .cz i {
+  cursor: pointer;
+}
+html .qrcode_box {
+  position: absolute;
+  border: 1px solid #ccc;
+  left: 188px;
+  bottom: 45px;
+  z-index: 9999;
+  padding: 10px 20px 20px 20px;
+  text-align: center;
+  background: #FFF;
+  display: none;
+}
+html .qrcode_box div {
+  text-align: center;
+}
+html #meiti-list .searchs {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 20px 30px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  min-height: 182px;
+  position: relative;
+}
+html #meiti-list .searchs .t-search .btsns {
+  height: 34px;
+  width: 106px;
+  margin-left: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #e60012;
+  color: #FFF;
+}
+html #meiti-list .searchs .btnsll {
+  height: 40px;
+  padding: 0px 20px;
+  border: none;
+  background: #e60012;
+  color: #FFFFFF;
+  position: absolute;
+  top: 71px;
+  right: 30px;
+  cursor: pointer;
+  font-size: 16px;
+}
+html .notice-list {
+  width: 96%;
+  margin: 0 2%;
+  background: #FFFFFF;
+  padding: 20px 30px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  min-height: 182px;
+  position: relative;
+  margin-top: 30px;
+}
+html .notice-list ul li {
+  background: url('../images/note_icon.png') no-repeat left 15px;
+  padding: 15px 40px;
+  height: 105px;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+  cursor: pointer;
+  padding-right: 60px;
+}
+html .notice-list ul li .ntitle {
+  font-size: 16px;
+  color: #323232;
+  line-height: 30px;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+html .notice-list ul li .ncont {
+  font-size: 14px;
+  color: #656565;
+  line-height: 25px;
+  height: 50px;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+html .notice-list ul li .caozuo {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 26px;
+}
+.daifamd {
+  background: none;
+  border: 1px solid #e6e6e6;
+  padding: 5px 15px;
+  cursor: pointer;
+  margin-left: 20px;
+}

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>我的主页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="{:statics('css')}font.css">
+    <link rel="stylesheet" href="{:statics('css')}xadmin.css">
+  </head>
+<body onload="showLeftTime()">
+  <div class="x-body layui-anim layui-anim-up">
+    <blockquote class="layui-elem-quote">欢迎您：
+      <span class="x-red">{$admininfo.nickname?$admininfo.nickname:$admininfo.username}</span>！<label id="showtime">当前时间:2018-04-25 20:50:53</label>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+      <legend>数据统计</legend>
+      <div class="layui-field-box">
+        <div class="layui-col-md12">
+          <div class="layui-card">
+            <div class="layui-card-body">
+              <div class="layui-carousel x-admin-carousel x-admin-backlog" lay-anim="" lay-indicator="inside" lay-arrow="none" style="width: 100%; height: 90px;">
+                <div carousel-item="">
+                  <ul class="layui-row layui-col-space10 layui-this">
+                    <li class="layui-col-xs2">
+                      <a href="javascript:;" class="x-admin-backlog-body"><h3>会员</h3><p><cite>{$tongji.huiyuan}</cite></p></a>
+                    </li>
+                    <li class="layui-col-xs2">
+                      <a href="javascript:;" class="x-admin-backlog-body"><h3>文章</h3><p><cite>{$tongji.wenzhang}</cite></p></a>
+                    </li>
+                    <li class="layui-col-xs2">
+                      <a href="javascript:;" class="x-admin-backlog-body"><h3>商品</h3><p><cite>{$tongji.shangpin}</cite></p></a>
+                    </li>
+                    <li class="layui-col-xs2">
+                      <a href="javascript:;" class="x-admin-backlog-body"><h3>店铺</h3><p><cite>{$tongji.dianpu}</cite></p></a>
+                    </li>
+                    <li class="layui-col-xs2">
+                      <a href="javascript:;" class="x-admin-backlog-body"><h3>门店</h3><p><cite>{$tongji.mendian}</cite></p></a>
+                    </li>
+                    <li class="layui-col-xs2">
+                      <a href="javascript:;" class="x-admin-backlog-body"><h3>订单</h3><p><cite>{$tongji.dingdan}</cite></p></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="layui-elem-field" style="display:none;">
+      <legend>系统通知</legend>
+      <div class="layui-field-box">
+        <table class="layui-table" lay-skin="line">
+          <tbody>
+            <tr>
+              <td >
+                <a class="x-a" href="/" target="_blank">新版 2.0上线了</a>
+              </td>
+            </tr>
+            <tr>
+              <td >
+                <a class="x-a" href="/" target="_blank">交流qq:(370946531)</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+    <fieldset class="layui-elem-field">
+      <legend>系统信息</legend>
+      <div class="layui-field-box">
+        <table class="layui-table">
+          <tbody>
+            <tr>
+              <th>系统版本</th>
+              <td>1.0.0</td></tr>
+              <tr>
+                <th>服务器地址</th>
+                <td>{$hostname}</td>
+              </tr>
+              <tr>
+                <th>操作系统</th>
+                <td>{$info.win}</td>
+              </tr>
+              <tr>
+                <th>运行环境</th>
+                <td>{$info.environment}</td>
+              </tr>
+              <tr>
+                <th>PHP版本</th>
+                <td>{$info.php}</td>
+              </tr>
+              <tr>
+                <th>MYSQL版本</th>
+                <td>{$info.mysql}</td>
+              </tr>
+              <tr>
+                <th>上传附件限制</th>
+                <td>{$info.upload_size}</td>
+              </tr>
+              <tr>
+                <th>执行时间限制</th>
+                <td>{$info.execution_time}</td>
+              </tr>
+              <tr>
+                <th>剩余空间</th>
+                <td>{notempty name="$info.disk"}{$info.disk}{else/}未知{/notempty}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </fieldset>
+    <fieldset class="layui-elem-field" style="display:none">
+      <legend>开发团队</legend>
+      <div class="layui-field-box">
+        <table class="layui-table">
+          <tbody>
+            <tr>
+              <th>版权所有</th>
+              <td>广州市卓杰科技有限公司
+                <a href="http://www.zhuojie.cc" class='x-a' target="_blank">访问官网</a>
+              </td>
+            </tr>
+            <tr>
+              <th>开发者</th>
+              <td>无崖子(1605891418@qq.com)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+    <blockquote class="layui-elem-quote layui-quote-nm">{$webconfig.copy|raw}</blockquote>
+  </div>
+</body>
+<script type="text/javascript" src="{:statics('js')}jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript">
+    var initializationTime = (new Date()).getTime();
+    function showLeftTime(){
+      var now=new Date();
+      var year    = now.getYear() + 1900;
+      var month   = now.getMonth() + 1;
+      if(month<10){
+        month = '0'+month;
+      }
+      var day     = now.getDate();
+      if(day<10){
+        day = '0'+day;
+      }
+      var hours   = now.getHours();
+      if(hours<10){
+        hours = '0'+hours;
+      }
+      var minutes = now.getMinutes();
+      if(minutes<10){
+        minutes = '0'+minutes;
+      }
+      var seconds = now.getSeconds();
+      if(seconds<10){
+        seconds = '0'+seconds;
+      }
+      var hh  = "当前时间："+year+"年"+month+"月"+day+"日 "+hours+":"+minutes+":"+seconds+"";
+      $('#showtime').text(hh);
+      var timeID = setTimeout(showLeftTime,1000);
+    }
+</script>
+</html>

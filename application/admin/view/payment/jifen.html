@@ -1,0 +1,34 @@
+<div class="layui-form-item">
+	<label class="layui-form-label">开启/关闭</label>
+	<div class="layui-input-block">
+		<input type="checkbox" {notempty name="jifen.is_show"}{eq name="jifen.is_show" value="y"}checked="checked"{/eq}{/notempty} name="jifen[is_show]" lay-skin="switch" lay-filter="component-form-switchTest" lay-text="开启|关闭" value="y">
+	</div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>兑换比例</label>
+    <div class="layui-input-inline">
+        <input type="text" name="jifen[bili]" placeholder="请输入积分兑换比例" class="layui-input" {notempty name="jifen.bili"}value="{$jifen.bili}"{/notempty}>
+    </div>
+    <div class="layui-form-mid layui-word-aux"> 积分 兑换 1元</div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>订单满</label>
+    <div class="layui-input-inline" style="width:250px">
+        <input type="text" name="jifen[man]" placeholder="请输入订单满多少元起可以使用" class="layui-input" {notempty name="jifen.man"}value="{$jifen.man}"{/notempty}>
+    </div>
+    <div class="layui-form-mid layui-word-aux"> 元起可用(0表示不受使用限制)</div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>积分满</label>
+    <div class="layui-input-inline" style="width:250px">
+        <input type="text" name="jifen[startman]" placeholder="请输入积分满多少起可以使用" class="layui-input" {notempty name="jifen.startman"}value="{$jifen.startman}"{/notempty}>
+    </div>
+    <div class="layui-form-mid layui-word-aux"> 起可用(0表示不受使用限制)</div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label"><span class="x-red">*</span>最多使用</label>
+    <div class="layui-input-inline" style="width:250px">
+        <input type="text" name="jifen[endman]" placeholder="请输入最多使用积分" class="layui-input" {notempty name="jifen.endman"}value="{$jifen.startman}"{/notempty}>
+    </div>
+    <div class="layui-form-mid layui-word-aux"> 积分(0表示不受使用限制)</div>
+</div>

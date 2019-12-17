@@ -1,0 +1,140 @@
+<style type="text/css">
+  .inputs{width:80px;padding:2px 10px;text-align: center;}
+</style>
+<div class="layui-card-header">基本信息</div>
+<table class="layui-table layui-form">
+  <thead>
+    <tr>
+      <th>会员等级</th>
+      <th width="300">升级条件</th>
+      <th width="300">等级分红：元</th>
+    </tr>
+  </thead>
+  <tbody>
+    {foreach name="member_cate" item="v" key="k"}
+      <tr>
+        <td>{$v.title} <input type="hidden" name="hy[{$k}][id]" value="{$v.id}"></td>
+        <td>成功开团 <input type="text" class="inputs" name="hy[{$k}][auto_group]" value="{$v.auto_group}"> 个</td>
+        <td><input type="text" class="inputs" name="hy[{$k}][group_fenhong]" value="{$v.group_fenhong}"> 分红权</td>
+      </tr>
+    {/foreach}
+  </tbody>
+</table>
+<div class="layui-form-item">
+  <div class="layui-form-mid layui-word-aux" style="margin-left: 0">
+    分红设置说明<br/>
+    如: 设置0或不填, 表示不参与分红<br/>
+    如: 设置-1，表示永久性分红<br/>
+    如: 设置6000, 表示当前等级的团长最多可以分红6000
+  </div>
+</div>
+<div class="layui-card-header">分红比例</div>
+<div class="layui-form-item" style="margin-bottom:0px;">
+  <label class="layui-form-label">总业绩</label>
+  <div class="layui-form-mid layui-word-aux"></div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[pt_todayyeji]" class="layui-input" {notempty name="yeji"}value="{$yeji}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux">x</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[pt_yejibili]" class="layui-input" {notempty name="one.pt_yejibili"}value="{$one.pt_yejibili}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> %</div>
+</div>
+<div class="layui-card-header">永久性分红</div>
+<div class="layui-form-item" style="margin-bottom:0px;">
+  <label class="layui-form-label">每拼一团</label>
+  <div class="layui-form-mid layui-word-aux">，奖励</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[pt_jiangli]" class="layui-input" {notempty name="one.pt_jiangli"}value="{$one.pt_jiangli}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> 元/团</div>
+</div>
+<div class="layui-form-item">
+  <label class="layui-form-label">&nbsp;</label>
+  <div class="layui-form-mid layui-word-aux">
+    每成功拼一团的奖励 ,该奖励的优先级最高，启用该奖励其他团长奖励方案将会失效（不影响非永久性分红的团长）<br/>
+    如: 设置0或不填, 不管团购价设置多少，获取不到奖励<br/>
+    如: 设置10, 不管整个拼团的总团购价多少，都给奖励10<br/>
+    如: 设置5%, 整个拼团总团购价400， 则可奖励20（400*5%）
+  </div>
+</div>
+<div class="layui-form-item" style="margin-bottom:0px;">
+  <label class="layui-form-label">直属团队</label>
+  <div class="layui-form-mid layui-word-aux">，拼团奖励</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[pt_jiangli_z]" class="layui-input" {notempty name="one.pt_jiangli_z"}value="{$one.pt_jiangli_z}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> 元/团</div>
+</div>
+<div class="layui-form-item">
+  <label class="layui-form-label">&nbsp;</label>
+  <div class="layui-form-mid layui-word-aux">
+    直属团队每成功拼一团的奖励 ,该奖励的优先级最高，启用该奖励其他团长奖励方案将会失效（不影响非永久性分红的团长）<br/>
+    如: 设置0或不填, 不管团购价设置多少，获取不到奖励<br/>
+    如: 设置10, 不管整个拼团的总团购价多少，都给奖励10<br/>
+    如: 设置5%, 整个拼团总团购价400， 则可奖励20（400*5%）
+  </div>
+</div>
+<div class="layui-card-header">总团/代理分红</div>
+<div class="layui-form-item">
+  <label class="layui-form-label">代理团长</label>
+  <div class="layui-form-mid layui-word-aux">全团队每团奖励</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[dl_tuanjiang]" class="layui-input" {notempty name="one.dl_tuanjiang"}value="{$one.dl_tuanjiang}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> 元/团</div>
+</div>
+<div class="layui-form-item">
+  <label class="layui-form-label">&nbsp;</label>
+  <div class="layui-form-mid layui-word-aux">同级别每团奖励</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[dl_tuanjiang_tj]" class="layui-input" {notempty name="one.dl_tuanjiang_tj"}value="{$one.dl_tuanjiang_tj}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> 元/团</div>
+</div>
+<div class="layui-form-item">
+  <label class="layui-form-label">&nbsp;</label>
+  <div class="layui-form-mid layui-word-aux">直招代理奖金</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[dl_jiangjin]" class="layui-input" {notempty name="one.dl_jiangjin"}value="{$one.dl_jiangjin}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> %</div>
+</div>
+<div class="layui-form-item">
+  <label class="layui-form-label">&nbsp;</label>
+  <div class="layui-form-mid layui-word-aux">平级代理奖金</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[dl_jiangjin_pj]" class="layui-input" {notempty name="one.dl_jiangjin_pj"}value="{$one.dl_jiangjin_pj}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> %</div>
+</div>
+<div class="layui-form-item">
+  <label class="layui-form-label">&nbsp;</label>
+  <div class="layui-form-mid layui-word-aux">直招完成</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[dl_sj]" class="layui-input" {notempty name="one.dl_sj"}value="{$one.dl_sj}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> 个代理直接晋升总团长</div>
+</div>
+<div class="layui-form-item">
+  <label class="layui-form-label">总团长</label>
+  <div class="layui-form-mid layui-word-aux">全团队每团奖励</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[zo_tuanjiang]" class="layui-input" {notempty name="one.zo_tuanjiang"}value="{$one.zo_tuanjiang}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> 元/团</div>
+</div>
+<div class="layui-card-header">提现手续费</div>
+<div class="layui-form-item">
+  <label class="layui-form-label">提现金额</label>
+  <div class="layui-form-mid layui-word-aux">x</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[shouxu]" class="layui-input" {notempty name="one.shouxu"}value="{$one.shouxu}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> % +</div>
+  <div class="layui-input-inline">
+    <input type="text" name="pt[shouxu_j]" class="layui-input" {notempty name="one.shouxu_j"}value="{$one.shouxu_j}"{/notempty}>
+  </div>
+  <div class="layui-form-mid layui-word-aux"> 元</div>
+</div>

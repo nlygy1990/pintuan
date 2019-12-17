@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{$webconfig.title}-管理登录</title>
+	<link rel="stylesheet" href="{:statics('css')}common.css">
+	<link rel="stylesheet" href="{:statics('css')}login.css">
+    <link rel="stylesheet" href="{:statics('layui')}css/layui.css">
+</head>
+<body style="background-image:url('{$webconfig.login_bg}') no-repeat center center;background-size: cover;background:#93defe;">
+	<form method="post" action="" class="layui-form">
+		<div class="forma layui-anim layui-anim-scaleSpring">
+			<p class="title">{$webconfig.title}后台管理系统</p>
+			<div class="content">
+				<div class="lists">
+					<div class="icon left"><img src="{:statics('img')}phone.png" alt="" class="phone"></div>
+					<div class="input right">
+						<input type="text" name="" id="username" placeholder="用户名">
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="lists">
+					<div class="icon left"><img src="{:statics('img')}password.png" alt="" class="pwd"></div>
+					<div class="input right">
+						<input type="password" name="" id="password" placeholder="输入密码">
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="lists">
+					<div class="icon left"><img src="{:statics('img')}code.png" alt="" class="code"></div>
+					<div class="input right">
+						<input type="text" name="" id="yzcode" placeholder="验证码" class="yz_code left">
+						<img src="{:url('admin/base/verify')}" alt="" class="right" onclick="this.src='{:url('admin/base/verify')}?seed='+Math.random()" id="captcha">
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="lists">
+					<div class="layui-unselect layui-form-checkbox" lay-skin="primary" id="remember">
+						<span>记住账号</span><i class="layui-icon layui-icon-ok"></i>
+					</div>
+					<input type="hidden" name="" value="n" id="remember_val">
+				</div>
+				<div class="clear"></div>
+				<div class="lists">
+					<button class="layui-btn" lay-submit="" lay-filter="demo1" id="login">立即登录</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div style="text-align: center;color:#FFF;position:fixed;bottom:30px;left:0px;width:100%;font-size:16px;">
+		中网赢通（广州）网络科技有限公司  版权所有©2019-2020 技术支持电话：020-29895070
+	</div>
+</body>
+<script src="{:statics('js')}jquery.min.js"></script>
+<script type="text/javascript" src="{:statics('public')}lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="{:statics('js')}xadmin.js"></script>
+<script type="text/javascript">
+	layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+          	var form = layui.form,layer = layui.layer;
+    });
+    $('#remember').click(function(){
+		var remember = $('#remember_val').val();
+		if(remember=='n'){
+			$('#remember_val').val('y');
+		}else{
+			$('#remember_val').val('n');
+		}
+	})
+	var mm = localStorage.getItem('zj_uname');
+	if(mm){
+		$('#username').val(mm);
+		$('#remember_val').val('y');
+		$('#remember').addClass('layui-form-checked');
+	}
+	function check_login(){
+	 	var name   = $("#username").val();
+	 	var pass   = $("#password").val();
+	 	var yzcode = $('#yzcode').val();
+	 	var remember = $('#remember_val').val();
+	 	if(name==""){
+	 		layer.msg('用户名不能为空',{icon:2,time:1000});
+	 		$('#username').focus();
+	  		return false;
+	 	}
+	 	if(pass==""){
+	 		layer.msg('密码不能为空',{icon:2,time:1000});
+	 		$('#password').focus();
+	  		return false;
+	 	}
+	 	if(yzcode==""){
+	 		layer.msg('验证码不能为空',{icon:2,time:1000});
+	 		$('#yzcode').focus();
+	  		return false;
+	 	}
+	 	if(remember=='y'){
+ 			localStorage.setItem('zj_uname',name);
+ 		}else{
+ 			localStorage.setItem('zj_uname','');
+ 		}
+	 	$.ajax({
+	 		url:"{:url('admin/login/checkpwd')}",
+	 		data:{uname:name,upwd:pass,ucode:yzcode},
+	 		dataType:'json',
+	 		type:'post',
+	 		success:function(res){
+	 			if(res.code==0){
+	 				layer.msg(res.msg,{icon:1});
+	 				setTimeout(function(){
+  						window.location.href = "{:url('admin/index/index')}";
+					}, 2000);
+	 			}else{
+	 				layer.msg(res.msg,{icon:2,time:1000}); 
+			  		setTimeout(function(){
+			   			$('#captcha').attr('src','{:url('admin/base/verify')}?seed='+Math.random());
+			  		},1);
+			  		return false;
+	 			}
+	 		},
+	 		error:function(res){
+	 			layer.msg('网络连接错误',{icon:2,time:1000});
+		  		return false;
+	 		}
+	 	})
+	}
+	$(function(){
+		$("#login").click(function(){
+			check_login();
+			return false;
+		})
+	})
+</script>
+</html>
